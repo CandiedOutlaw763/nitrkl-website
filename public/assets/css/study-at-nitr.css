@@ -1,0 +1,718 @@
+/* ==========================================================================
+   Study@NITR — Luxury Editorial Academic Showcase
+   Theme: Screen Recording Exact Match in Institute Color Theme
+   Palette: Cinnamon Red (#771D1D), Deep Crimson (#581414), Warm Amber (#D75151)
+   Readability Focus: High-Contrast Pristine Typography, Simple Backgrounds, No Box Clutter
+   ========================================================================== */
+
+:root {
+  --san-key: #771D1D;
+  --san-key-dark: #581414;
+  --san-key-deep: #3B0C0C;
+  --san-key-bright: #9E2626;
+  --san-accent: #D75151;
+  --san-accent-light: #F6AD55;
+  --san-dark-bg: #0C0707;
+  --san-dark-surface: #140A0A;
+  --san-text-primary: #FFFFFF;
+  --san-text-secondary: rgba(255, 255, 255, 0.92);
+  --san-text-muted: rgba(255, 255, 255, 0.75);
+}
+
+.study-at-nitr-section {
+  position: relative;
+  background: var(--san-dark-bg);
+  color: #ffffff;
+  padding: 0;
+  overflow: hidden;
+  font-family: 'Noto Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.san-section-anchor {
+  position: absolute;
+  top: -80px;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  visibility: hidden;
+}
+
+/* ==========================================================================
+   Split Interactive Showcase Container
+   ========================================================================== */
+.san-split-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 760px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 992px) {
+  .san-split-wrapper {
+    flex-direction: row;
+    min-height: 800px;
+  }
+}
+
+/* ==========================================================================
+   LEFT COLUMN: Cinnamon Red Editorial Menu Panel (Screen Recording Match)
+   ========================================================================== */
+.san-menu-panel {
+  position: relative;
+  background: linear-gradient(168deg, #872020 0%, #771D1D 50%, #581313 100%);
+  color: #ffffff;
+  padding: 38px 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 10;
+  box-shadow: 10px 0 36px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+@media (min-width: 992px) {
+  .san-menu-panel {
+    flex: 0 0 36%;
+    max-width: 460px;
+    padding: 48px 44px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .san-menu-panel {
+    flex: 0 0 33%;
+    max-width: 500px;
+    padding: 56px 50px;
+  }
+}
+
+/* Subtle architectural texture on left panel */
+.san-menu-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.san-menu-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Top Header: Section Heading "Study @ NITR" */
+.san-menu-header {
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.san-menu-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(28px, 3.2vw, 38px);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.san-menu-title::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 28px;
+  background: var(--san-accent);
+  border-radius: 3px;
+}
+
+/* ==========================================================================
+   Main Programme Navigation List (Editorial Serif Display)
+   ========================================================================== */
+.san-nav-list {
+  list-style: none;
+  margin: 0 0 36px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+@media (min-width: 992px) {
+  .san-nav-list {
+    gap: 18px;
+    margin-bottom: 42px;
+  }
+}
+
+.san-nav-item {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.san-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none !important;
+  color: rgba(255, 255, 255, 0.82) !important;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(23px, 2.6vw, 36px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  padding: 4px 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.san-nav-item:hover .san-nav-link,
+.san-nav-item.active .san-nav-link {
+  color: #ffffff !important;
+  transform: translateX(6px);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+}
+
+/* Arrow indicator (matching frame 00:01 & 00:02 of screen recording) */
+.san-nav-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: system-ui, sans-serif;
+  font-size: 24px;
+  color: var(--san-accent);
+  opacity: 0;
+  transform: translateX(-14px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-left: 12px;
+}
+
+.san-nav-item:hover .san-nav-arrow,
+.san-nav-item.active .san-nav-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Active indicator underline */
+.san-nav-link::before {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--san-accent);
+  transition: width 0.35s ease;
+  border-radius: 2px;
+}
+
+.san-nav-item.active .san-nav-link::before {
+  width: 48px;
+}
+
+/* ==========================================================================
+   Secondary Sublinks Grid
+   ========================================================================== */
+.san-sublinks-wrapper {
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  margin-bottom: 28px;
+}
+
+.san-sublinks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 20px;
+}
+
+.san-sublink-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  padding: 3px 0;
+}
+
+.san-sublink-item i {
+  font-size: 11px;
+  color: var(--san-accent);
+  opacity: 0.85;
+}
+
+.san-sublink-item:hover {
+  color: #ffffff;
+  transform: translateX(3px);
+}
+
+.san-sublink-item:hover i {
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   Left Panel Footer: Social / Quick Portals
+   ========================================================================== */
+.san-menu-footer {
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.14);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.san-footer-socials {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.san-social-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 12px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.san-social-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #ffffff;
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.san-portal-link {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
+}
+
+.san-portal-link:hover {
+  color: var(--san-accent);
+}
+
+/* ==========================================================================
+   RIGHT COLUMN: Atmospheric Stage with 100% Readable Full Text & Calm Background
+   ========================================================================== */
+.san-stage-panel {
+  position: relative;
+  background: var(--san-dark-surface);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 24px;
+  overflow: hidden;
+}
+
+@media (min-width: 992px) {
+  .san-stage-panel {
+    padding: 50px 54px;
+  }
+}
+
+/* Ambient glow accents */
+.san-stage-panel::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  right: -5%;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(119, 29, 29, 0.35) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(50px);
+}
+
+.san-stage-panel::after {
+  content: '';
+  position: absolute;
+  bottom: -15%;
+  left: 5%;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(218, 137, 86, 0.14) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(60px);
+}
+
+/* Watermark typography in background */
+.san-watermark-wrapper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  z-index: 1;
+  user-select: none;
+  text-align: center;
+  overflow: hidden;
+}
+
+.san-watermark-top {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(28px, 4.5vw, 68px);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.035);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.san-watermark-main {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(44px, 8vw, 120px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.04);
+  line-height: 0.95;
+  white-space: nowrap;
+}
+
+/* Top Right Header Toolbar */
+.san-stage-toolbar {
+  position: absolute;
+  top: 28px;
+  right: 36px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 20;
+}
+
+.san-toolbar-pill {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--san-key);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  padding: 7px 16px;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.san-toolbar-pill:hover {
+  background: var(--san-key-bright);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Full Text Reading Panes (Maximum Readability, Simple Calm Backgrounds)
+   ========================================================================== */
+.san-panes-wrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 960px;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.san-pane {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(16px) scale(0.98);
+  pointer-events: none;
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.san-pane.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  position: relative;
+}
+
+/* Simple, calm campus background image with deep dark scrim */
+.san-pane-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center center;
+  z-index: 0;
+  filter: brightness(0.4) saturate(0.85);
+  transform: scale(1.03);
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.san-pane.active .san-pane-bg {
+  transform: scale(1);
+}
+
+/* 92% dark scrim for 100% crystal-clear readability */
+.san-pane-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(14, 7, 7, 0.93) 0%,
+    rgba(18, 9, 9, 0.91) 50%,
+    rgba(12, 6, 6, 0.95) 100%
+  );
+  z-index: 1;
+}
+
+/* Inner Reading Card */
+.san-content-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  min-height: 540px;
+  max-height: 640px;
+  overflow-y: auto;
+  padding: 38px 34px;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .san-content-card {
+    padding: 46px 48px;
+    min-height: 580px;
+  }
+}
+
+/* Custom smooth dark scrollbar */
+.san-content-card::-webkit-scrollbar {
+  width: 7px;
+}
+
+.san-content-card::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.san-content-card::-webkit-scrollbar-thumb {
+  background: var(--san-key);
+  border-radius: 8px;
+}
+
+.san-content-card::-webkit-scrollbar-thumb:hover {
+  background: var(--san-accent);
+}
+
+/* ==========================================================================
+   Pristine Typography (NO Boxes, NO Pills)
+   ========================================================================== */
+.san-content-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0 0 22px 0;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--san-accent);
+  display: inline-block;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.san-content-subtitle {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--san-accent-light);
+  margin-top: 28px;
+  margin-bottom: 10px;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.san-content-subtitle::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--san-accent);
+}
+
+.san-content-card p {
+  font-size: 15.5px;
+  line-height: 1.8;
+  color: var(--san-text-secondary);
+  margin: 0 0 16px 0;
+  font-weight: 400;
+}
+
+/* High-contrast amber inline links */
+.san-inline-link {
+  color: var(--san-accent-light) !important;
+  font-weight: 600;
+  text-decoration: underline !important;
+  text-underline-offset: 4px;
+  transition: all 0.2s ease;
+}
+
+.san-inline-link:hover {
+  color: #ffffff !important;
+  text-decoration-color: #ffffff !important;
+}
+
+/* Numbered Eligibility List for MSC */
+.san-eligibility-list {
+  padding-left: 22px;
+  margin: 14px 0 24px 0;
+  list-style: decimal;
+}
+
+.san-eligibility-list li {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--san-text-secondary);
+  margin-bottom: 10px;
+  padding-left: 6px;
+}
+
+/* Clean CTA action at bottom */
+.san-pane-footer {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.san-btn-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: linear-gradient(135deg, #771D1D 0%, #A72626 100%);
+  color: #ffffff !important;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 10px 22px;
+  border-radius: 8px;
+  text-decoration: none !important;
+  transition: all 0.25s ease;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 16px rgba(119, 29, 29, 0.4);
+}
+
+.san-btn-action:hover {
+  background: linear-gradient(135deg, #D75151 0%, #B86B3E 100%);
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(218, 137, 86, 0.45);
+}
+
+/* ==========================================================================
+   Mobile / Responsive Adaptation (< 992px)
+   ========================================================================== */
+@media (max-width: 991.98px) {
+  .san-menu-panel {
+    padding: 30px 20px;
+  }
+  
+  .san-nav-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .san-nav-link {
+    font-size: 17px;
+    padding: 6px 14px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .san-nav-item.active .san-nav-link {
+    background: #ffffff;
+    color: var(--san-key) !important;
+    transform: none;
+  }
+
+  .san-nav-item.active .san-nav-arrow {
+    display: none;
+  }
+
+  .san-nav-link::before {
+    display: none;
+  }
+
+  .san-stage-panel {
+    padding: 32px 16px;
+    min-height: 560px;
+  }
+
+  .san-watermark-wrapper {
+    display: none;
+  }
+
+  .san-stage-toolbar {
+    top: 14px;
+    right: 16px;
+  }
+
+  .san-content-card {
+    padding: 28px 20px;
+    max-height: 520px;
+  }
+}

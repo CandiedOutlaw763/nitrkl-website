@@ -1,0 +1,58 @@
+.translate-container {
+    position: relative;
+    display: inline-block;
+}
+
+
+.translate-btn {
+    background: transparent;
+    color: white;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+}
+
+
+.translate-panel {
+    position: absolute;
+    top: 0;
+    right: 100%;
+    background-color: #771D1D;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(-100%);
+    display: none;
+}
+
+
+    .translate-panel.show {
+        transform: translateX(0);
+        display: block;
+    }
+
+#goog-gt-tt, .goog-te-balloon-frame {
+    display: none !important;
+}
+
+.goog-text-highlight {
+    background: none !important;
+    box-shadow: none !important;
+}
+
+.goog-te-balloon-frame {
+    display: none;
+}
+
+font {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.goog-logo-link, .goog-te-gadget span {
+    display: none !important;
+}
+
+.goog-te-gadget {
+    color: transparent !important;
+}

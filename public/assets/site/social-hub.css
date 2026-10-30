@@ -1,0 +1,445 @@
+/* ==========================================================================
+   NIT Rourkela - Social Media Hub ("Stay Connected")
+   ========================================================================== */
+
+.social-hub {
+  --hub-accent: #A72626;
+  --hub-ink: #150202;
+  --hub-muted: #606060;
+  --hub-line: #ebeaea;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+}
+
+.social-hub p {
+  text-align: left;
+}
+
+/* Hero banner */
+.social-hub .hub-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0;
+  padding: 26px 26px 22px;
+  color: #fff;
+  background:
+    linear-gradient(135deg, #771d1d 0%, #a72626 100%);
+  box-shadow: 0 14px 34px rgba(21, 2, 2, 0.18);
+}
+
+.social-hub .hub-hero::before,
+.social-hub .hub-hero::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  pointer-events: none;
+}
+
+.social-hub .hub-hero::before {
+  width: 220px;
+  height: 220px;
+  right: -70px;
+  top: -90px;
+}
+
+.social-hub .hub-hero::after {
+  width: 140px;
+  height: 140px;
+  right: -20px;
+  top: -40px;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.social-hub .hub-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--t-small);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.social-hub .hub-eyebrow .live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #198754;
+  box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.6);
+  animation: hubPulse 2s 3; /* stops within 5 s (WCAG 2.2.2) */
+}
+
+.social-hub .hub-hero h3 {
+  margin: 0 0 6px;
+  font-size: var(--t-h2);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.social-hub .hub-hero h3 span {
+  background: linear-gradient(90deg, #faaaaa, #d75151);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.social-hub .hub-hero p {
+  margin: 0;
+  max-width: 34ch;
+  font-size: var(--t-p1);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.social-hub .hub-tag {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: var(--t-p2);
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Platform cards */
+.social-hub .hub-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social-hub .hub-card {
+  --brand: #771d1d;
+  --brand-bg: linear-gradient(135deg, #771d1d 0%, #a72626 100%);
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  padding: 16px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid var(--hub-line);
+  color: var(--hub-ink);
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(21, 2, 2, 0.05);
+  transition: transform 0.35s cubic-bezier(.2, .8, .2, 1), box-shadow 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+}
+
+/* Brand wash that sweeps up on hover */
+.social-hub .hub-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--brand-bg);
+  transform: translateY(101%);
+  transition: transform 0.45s cubic-bezier(.2, .8, .2, 1);
+}
+
+.social-hub .hub-card:hover,
+.social-hub .hub-card:focus-visible {
+  transform: translateY(-6px);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 18px 36px rgba(21, 2, 2, 0.18);
+}
+
+.social-hub .hub-card:hover::before,
+.social-hub .hub-card:focus-visible::before {
+  transform: translateY(0);
+}
+
+.social-hub .hub-card:focus-visible {
+  outline: 3px solid var(--hub-accent);
+  outline-offset: 3px;
+}
+
+.social-hub .hub-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.social-hub .hub-icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  font-size: var(--t-h3);
+  color: #fff;
+  background: var(--brand-bg);
+  box-shadow: 0 8px 18px rgba(21, 2, 2, 0.15);
+  transition: background 0.35s ease, transform 0.35s ease;
+}
+
+.social-hub .hub-card:hover .hub-icon,
+.social-hub .hub-card:focus-visible .hub-icon {
+  background: rgba(255, 255, 255, 0.18);
+  transform: rotate(-8deg) scale(1.06);
+}
+
+.social-hub .hub-arrow {
+  font-size: var(--t-p2);
+  color: var(--hub-muted);
+  transition: transform 0.35s ease, color 0.35s ease;
+}
+
+.social-hub .hub-card:hover .hub-arrow,
+.social-hub .hub-card:focus-visible .hub-arrow {
+  color: #fff;
+  transform: translate(3px, -3px);
+}
+
+.social-hub .hub-name {
+  display: block;
+  font-size: var(--t-p1);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.social-hub .hub-handle {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--t-p2);
+  color: var(--hub-muted);
+  word-break: break-word;
+  transition: color 0.35s ease;
+}
+
+.social-hub .hub-blurb {
+  margin: 0;
+  font-size: var(--t-p2);
+  line-height: 1.45;
+  color: var(--hub-muted);
+  transition: color 0.35s ease;
+}
+
+.social-hub .hub-cta {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--t-p2);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--brand);
+  transition: color 0.35s ease, gap 0.35s ease;
+}
+
+.social-hub .hub-card:hover .hub-handle,
+.social-hub .hub-card:hover .hub-blurb,
+.social-hub .hub-card:hover .hub-cta,
+.social-hub .hub-card:focus-visible .hub-handle,
+.social-hub .hub-card:focus-visible .hub-blurb,
+.social-hub .hub-card:focus-visible .hub-cta {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.social-hub .hub-card:hover .hub-cta {
+  gap: 10px;
+}
+
+/* Brand palettes */
+.social-hub .hub-card.is-instagram {
+  --brand: #771d1d;
+  --brand-bg: linear-gradient(135deg, #771d1d 0%, #a72626 100%);
+}
+
+.social-hub .hub-card.is-facebook {
+  --brand: #771d1d;
+  --brand-bg: linear-gradient(135deg, #771d1d 0%, #a72626 100%);
+}
+
+.social-hub .hub-card.is-linkedin {
+  --brand: #771d1d;
+  --brand-bg: linear-gradient(135deg, #771d1d 0%, #a72626 100%);
+}
+
+.social-hub .hub-card.is-x {
+  --brand: #771d1d;
+  --brand-bg: linear-gradient(135deg, #771d1d 0%, #a72626 100%);
+}
+
+/* Follow-everywhere strip */
+.social-hub .hub-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px dashed #c6c6c6;
+}
+
+.social-hub .hub-strip p {
+  margin: 0;
+  font-size: var(--t-p2);
+  color: var(--hub-muted);
+}
+
+.social-hub .hub-strip p b {
+  color: var(--hub-ink);
+}
+
+.social-hub .hub-strip ul {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social-hub .hub-strip a {
+  --brand: #771d1d;
+  --brand-bg: linear-gradient(135deg, #771d1d 0%, #a72626 100%);
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  overflow: hidden;
+  border-radius: 50%;
+  color: var(--hub-ink);
+  background: #ebeaea;
+  border: 1px solid #c6c6c6;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(21, 2, 2, 0.05);
+  transition: transform 0.35s cubic-bezier(.2, .8, .2, 1), box-shadow 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+}
+
+/* Brand wash that sweeps up on hover (same animation as the bigger hub-cards) */
+.social-hub .hub-strip a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 50%;
+  background: var(--brand-bg);
+  transform: translateY(101%);
+  transition: transform 0.45s cubic-bezier(.2, .8, .2, 1);
+}
+
+.social-hub .hub-strip a .ic {
+  position: relative;
+  z-index: 1;
+  font-size: var(--t-p1);
+  transition: transform 0.35s cubic-bezier(.2, .8, .2, 1), color 0.35s ease;
+}
+
+.social-hub .hub-strip a:hover,
+.social-hub .hub-strip a:focus-visible {
+  transform: translateY(-5px) scale(1.08);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 10px 22px rgba(21, 2, 2, 0.2);
+}
+
+.social-hub .hub-strip a:hover::before,
+.social-hub .hub-strip a:focus-visible::before {
+  transform: translateY(0);
+}
+
+.social-hub .hub-strip a:hover i,
+.social-hub .hub-strip a:focus-visible i {
+  color: #fff;
+  transform: rotate(-10deg) scale(1.15);
+}
+
+.social-hub .hub-strip a:focus-visible {
+  outline: 2px solid var(--hub-accent);
+  outline-offset: 2px;
+}
+
+/* Brand palettes for strip circles matching bigger cards */
+.social-hub .hub-strip a.is-instagram,
+.social-hub .hub-strip a[title="Instagram"] {
+  --brand: #771d1d;
+  --brand-bg: linear-gradient(135deg, #771d1d 0%, #a72626 100%);
+}
+
+.social-hub .hub-strip a.is-facebook,
+.social-hub .hub-strip a[title="Facebook"] {
+  --brand: #771d1d;
+  --brand-bg: linear-gradient(135deg, #771d1d 0%, #a72626 100%);
+}
+
+.social-hub .hub-strip a.is-linkedin,
+.social-hub .hub-strip a[title="LinkedIn"] {
+  --brand: #771d1d;
+  --brand-bg: linear-gradient(135deg, #771d1d 0%, #a72626 100%);
+}
+
+.social-hub .hub-strip a.is-x,
+.social-hub .hub-strip a.is-youtube,
+.social-hub .hub-strip a[title="X"] {
+  --brand: #771d1d;
+  --brand-bg: linear-gradient(135deg, #771d1d 0%, #a72626 100%);
+}
+
+@keyframes hubPulse {
+  0% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.6); }
+  70% { box-shadow: 0 0 0 10px rgba(25, 135, 84, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0); }
+}
+
+@media (max-width: 575px) {
+  .social-hub .hub-hero h3 {
+    font-size: var(--t-h2);
+  }
+
+  .social-hub .hub-blurb {
+    display: none;
+  }
+
+  .social-hub .hub-card {
+    padding: 14px;
+  }
+
+  .social-hub .hub-strip {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .social-hub .hub-card,
+  .social-hub .hub-card::before,
+  .social-hub .hub-icon,
+  .social-hub .hub-arrow,
+  .social-hub .hub-strip a,
+  .social-hub .hub-strip a::before,
+  .social-hub .hub-strip a .ic {
+    transition: none;
+  }
+
+  .social-hub .hub-eyebrow .live-dot {
+    animation: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   NIT Rourkela homepage: the hub as copied above, set in the site's own type.
+   Headings and platform names in the display face; everything else in Noto Sans.
+   -------------------------------------------------------------------------- */
+.social-hub { font-family: var(--font, "Noto Sans", sans-serif); }
+.social-hub .hub-hero h3 { font-family: var(--display, "Noto Sans", sans-serif); font-weight: 700; text-transform: uppercase; font-size: var(--t-h2); line-height: 1.2; letter-spacing: 0; }
+.social-hub .hub-name { font-family: var(--display, "Noto Sans", sans-serif); font-weight: 700; text-transform: uppercase; font-size: var(--t-h3); line-height: 1.2; }
+/* DBIM: secondary text no smaller than 14px */
+.social-hub .hub-tag, .social-hub .hub-handle, .social-hub .hub-blurb, .social-hub .hub-cta { font-size: var(--t-p2); }

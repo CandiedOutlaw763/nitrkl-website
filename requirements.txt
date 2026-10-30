@@ -1,0 +1,6 @@
+# Runtime dependencies of the chat API only (the crawler and indexer are not deployed).
+fastapi>=0.115
+groq>=1.0
+numpy>=2.0
+onnxruntime>=1.20
+tokenizers>=0.20

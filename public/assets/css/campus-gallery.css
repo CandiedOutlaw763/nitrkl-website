@@ -1,0 +1,407 @@
+/* ==========================================================================
+   NIT Rourkela - Campus Gallery
+   One featured photograph with a crimson wipe between views, and an index
+   of campus places beside it. Square corners throughout.
+   ========================================================================== */
+
+.cg-section {
+  --cg-bg: #220909;
+  --cg-bg-2: #2E0D0D;
+  --cg-ink: #F7ECEC;
+  --cg-muted: #C7A3A3;
+  --cg-line: rgba(250, 170, 170, 0.16);
+  --cg-red: #A72626;
+  --cg-coral: #D75151;
+  --cg-ease: cubic-bezier(0.7, 0, 0.2, 1);
+
+  position: relative;
+  background: var(--cg-bg);
+  color: var(--cg-ink);
+  padding: clamp(56px, 8vw, 104px) 0 clamp(56px, 7vw, 96px);
+  overflow: hidden;
+  font-family: 'Noto Sans', Arial, sans-serif;
+}
+
+.cg-inner {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 4vw, 48px);
+}
+
+/* ---------- Head ---------- */
+.cg-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 24px 48px;
+  padding-bottom: 28px;
+  margin-bottom: 36px;
+  border-bottom: 1px solid var(--cg-line);
+}
+
+.cg-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 5.6vw, 4.6rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--cg-ink);
+  margin: 0 0 14px;
+}
+
+.cg-lede {
+  max-width: 52ch;
+  margin: 0;
+  text-align: left;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: var(--cg-muted);
+}
+
+.cg-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border: 1px solid rgba(250, 170, 170, 0.45);
+  color: var(--cg-ink);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.cg-all:hover,
+.cg-all:focus-visible {
+  background: var(--cg-ink);
+  border-color: var(--cg-ink);
+  color: #771D1D;
+}
+
+/* ---------- Stage ---------- */
+.cg-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 0;
+  border: 1px solid var(--cg-line);
+  background: var(--cg-bg-2);
+}
+
+.cg-feature {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #140505;
+}
+
+.cg-feature-link {
+  position: absolute;
+  inset: 0;
+  display: block;
+  cursor: zoom-in;
+  outline-offset: -4px;
+}
+
+.cg-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Incoming photo is revealed left-to-right behind a crimson bar */
+.cg-layer.is-entering {
+  z-index: 2;
+  animation: cgReveal 1s var(--cg-ease) both;
+}
+
+.cg-wipe {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 14px;
+  z-index: 3;
+  background: var(--cg-red);
+  box-shadow: 0 0 0 1px var(--cg-coral);
+  transform: translateX(-20px);
+  pointer-events: none;
+}
+
+.cg-wipe.is-running {
+  animation: cgSweep 1s var(--cg-ease) both;
+}
+
+@keyframes cgReveal {
+  from { clip-path: inset(0 100% 0 0); transform: scale(1.06); }
+  to   { clip-path: inset(0 0 0 0);    transform: scale(1); }
+}
+
+@keyframes cgSweep {
+  from { left: 0;    transform: translateX(-20px); }
+  to   { left: 100%; transform: translateX(0); }
+}
+
+/* Caption sits on a dark band so it reads on any photo */
+.cg-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 64px clamp(18px, 3vw, 32px) clamp(18px, 2.4vw, 26px);
+  background: linear-gradient(0deg, rgba(20, 5, 5, 0.86) 0%, rgba(20, 5, 5, 0) 100%);
+  pointer-events: none;
+}
+
+.cg-caption-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.4rem, 2.8vw, 2.3rem);
+  font-weight: 600;
+  line-height: 1.1;
+  color: #ffffff;
+  margin: 0;
+}
+
+.cg-caption-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.86rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.cg-caption-meta i {
+  font-size: 0.95rem;
+}
+
+/* ---------- Index of places ---------- */
+/* The photo sets the row height; the list fills it and scrolls if needed */
+.cg-index-wrap {
+  position: relative;
+  border-left: 1px solid var(--cg-line);
+}
+
+.cg-index {
+  position: absolute;
+  inset: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(250, 170, 170, 0.3) transparent;
+}
+
+.cg-index li {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.cg-tab {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 62px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 18px 8px 14px;
+  border: 0;
+  border-bottom: 1px solid var(--cg-line);
+  background: transparent;
+  color: var(--cg-muted);
+  text-align: left;
+  font: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.cg-index li:last-child .cg-tab {
+  border-bottom: 0;
+}
+
+.cg-tab img {
+  flex: none;
+  width: 64px;
+  height: 42px;
+  object-fit: cover;
+  filter: grayscale(0.85) brightness(0.8);
+  transition: filter 0.3s ease;
+}
+
+.cg-tab-name {
+  line-height: 1.3;
+}
+
+.cg-tab:hover {
+  color: var(--cg-ink);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.cg-tab:hover img {
+  filter: grayscale(0.3) brightness(0.95);
+}
+
+.cg-tab:focus-visible {
+  outline: 2px solid var(--cg-coral);
+  outline-offset: -2px;
+}
+
+.cg-tab[aria-selected="true"] {
+  color: #ffffff;
+  background: rgba(167, 38, 38, 0.22);
+  font-weight: 600;
+}
+
+.cg-tab[aria-selected="true"] img {
+  filter: none;
+}
+
+/* Left rule on the active place; its fill shows time until the next photo */
+.cg-tab::before,
+.cg-tab::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+}
+
+.cg-tab::before {
+  background: transparent;
+}
+
+.cg-tab[aria-selected="true"]::before {
+  background: rgba(250, 170, 170, 0.25);
+}
+
+.cg-tab::after {
+  background: var(--cg-coral);
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+.cg-tab[aria-selected="true"]::after {
+  transform: scaleY(1);
+}
+
+.cg-section.is-playing .cg-tab[aria-selected="true"]::after {
+  animation: cgProgress var(--cg-interval, 6s) linear both;
+}
+
+.cg-section.is-held .cg-tab[aria-selected="true"]::after {
+  animation-play-state: paused;
+}
+
+@keyframes cgProgress {
+  from { transform: scaleY(0); }
+  to   { transform: scaleY(1); }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1100px) {
+  .cg-stage {
+    grid-template-columns: minmax(0, 1fr) 280px;
+  }
+  .cg-tab img {
+    width: 52px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 860px) {
+  .cg-head {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  .cg-all {
+    justify-self: start;
+  }
+  .cg-stage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cg-index-wrap {
+    border-left: 0;
+    border-top: 1px solid var(--cg-line);
+  }
+  .cg-index {
+    position: static;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+  }
+  .cg-index li {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+  .cg-tab {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    width: 132px;
+    padding: 12px;
+    border-bottom: 0;
+    border-right: 1px solid var(--cg-line);
+    font-size: 0.82rem;
+  }
+  .cg-tab img {
+    width: 100%;
+    height: 66px;
+  }
+  .cg-tab::before,
+  .cg-tab::after {
+    top: auto;
+    right: 0;
+    width: auto;
+    height: 3px;
+  }
+  .cg-tab::after {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .cg-tab[aria-selected="true"]::after {
+    transform: scaleX(1);
+  }
+  @keyframes cgProgress {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+  .cg-caption-meta span {
+    display: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .cg-feature {
+    aspect-ratio: 4 / 3;
+  }
+  .cg-caption {
+    padding-top: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cg-layer.is-entering,
+  .cg-wipe.is-running {
+    animation: none;
+  }
+  .cg-wipe {
+    display: none;
+  }
+}

@@ -1,0 +1,616 @@
+/* ==========================================================================
+   Features With Panel — Incubations@NITR Component Styles
+   Theme: Screen Recording Exact Match (In Brand Color Theme)
+   Brand Colors: Cinnamon Crimson (#771D1D), Warm Amber (#D75151), Slate (#111827)
+   Layout:
+     - Left Column: Sticky Large Media Showcase with Title, Descriptions & Explore Link
+     - Right Column: Vertical List with Numbers, Arrow Hover, and Solid Crimson Active State
+   ========================================================================== */
+
+.fwp-incubation-section,
+.fwp-incubation-section * {
+  font-family: 'Noto Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  box-sizing: border-box;
+}
+
+.fwp-incubation-section {
+  position: relative;
+  background: #fdfbf7;
+  color: #111827;
+  padding: 56px 0 76px 0;
+  overflow: hidden;
+}
+
+/* Subtle architectural texture */
+.fwp-incubation-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(119, 29, 29, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(119, 29, 29, 0.03) 1px, transparent 1px);
+  background-size: 36px 36px;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: radial-gradient(ellipse 75% 60% at 50% 50%, #000 60%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 50%, #000 60%, transparent 100%);
+}
+
+.fwp-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ==========================================================================
+   Header Area matching executive university style
+   ========================================================================== */
+.fwp-header {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-bottom: 24px;
+  margin-bottom: 40px;
+  border-bottom: 1px dashed rgba(119, 29, 29, 0.2);
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .fwp-header {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+
+.fwp-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Outfit', 'Noto Sans', sans-serif !important;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #771D1D;
+  margin-bottom: 8px;
+  padding: 4px 12px;
+  background: rgba(119, 29, 29, 0.06);
+  border-radius: 0;
+  border-left: 3px solid #771D1D;
+}
+
+.fwp-kicker-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #771D1D;
+  box-shadow: 0 0 8px rgba(119, 29, 29, 0.6);
+  animation: fwp-pulse-dot 1.8s ease-in-out infinite;
+}
+
+@keyframes fwp-pulse-dot {
+  0%, 100% { transform: scale(0.9); opacity: 0.7; }
+  50% { transform: scale(1.25); opacity: 1; }
+}
+
+.fwp-title {
+  font-size: 34px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 768px) {
+  .fwp-title {
+    font-size: 42px;
+  }
+}
+
+.fwp-title-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 5px;
+  width: 130px;
+  margin: 0;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.fwp-title-bar::before {
+  content: '';
+  height: 100%;
+  width: 80px;
+  background: #771D1D;
+  border-radius: 0;
+}
+
+.fwp-title-bar::after {
+  content: '';
+  height: 100%;
+  width: 38px;
+  background: #D75151;
+  border-radius: 0;
+}
+
+.fwp-subtitle {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #4b5563;
+  max-width: 680px;
+  margin: 0;
+}
+
+.fwp-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.fwp-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: #ffffff;
+  color: #334155;
+  border-radius: 0;
+  border: 1px solid rgba(119, 29, 29, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s ease;
+  outline: none;
+}
+
+.fwp-toggle-btn:hover {
+  background: #111827;
+  color: #ffffff;
+  border-color: #771D1D;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(119, 29, 29, 0.2);
+}
+
+.fwp-toggle-btn.is-active {
+  background: #771D1D;
+  color: #ffffff;
+  border-color: #D75151;
+  box-shadow: 0 4px 16px rgba(119, 29, 29, 0.3);
+}
+
+.fwp-view-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #771D1D;
+  text-decoration: none;
+  padding: 9px 18px;
+  border-radius: 0;
+  background: rgba(119, 29, 29, 0.06);
+  border: 1px solid rgba(119, 29, 29, 0.25);
+  box-shadow: 0 2px 6px rgba(119, 29, 29, 0.04);
+  transition: all 0.25s ease;
+}
+
+.fwp-view-all:hover {
+  background: #771D1D;
+  color: #ffffff;
+  border-color: #771D1D;
+  transform: translateX(2px);
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(119, 29, 29, 0.25);
+}
+
+/* ==========================================================================
+   Two-column Grid matching the Screen Recording:
+   LEFT COLUMN: Sticky Large Media Showcase
+   RIGHT COLUMN: Vertical List of Interactive Items
+   ========================================================================== */
+.fwp-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: stretch;
+}
+
+@media (min-width: 992px) {
+  .fwp-grid {
+    grid-template-columns: 1.18fr 0.92fr;
+    gap: 36px;
+  }
+}
+
+/* ==========================================================================
+   LEFT COLUMN: STICKY FEATURED MEDIA SHOWCASE CARD
+   ========================================================================== */
+.fwp-sticky-wrapper {
+  position: relative;
+  height: 100%;
+}
+
+@media (min-width: 992px) {
+  .fwp-sticky-wrapper {
+    position: sticky;
+    top: 96px;
+  }
+}
+
+.fwp-showcase-telemetry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Outfit', 'Noto Sans', sans-serif !important;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #771D1D;
+  margin-bottom: 10px;
+  padding: 0 4px;
+}
+
+.fwp-showcase-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.fwp-showcase-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+  animation: fwp-pulse-dot 1.6s infinite;
+}
+
+.fwp-showcase-sub {
+  color: #64748b;
+  font-weight: 600;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+}
+
+.fwp-hud-frame {
+  position: relative;
+  height: 100%;
+  min-height: 520px;
+}
+
+.fwp-panel-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 540px;
+  border-radius: 0;
+  overflow: hidden;
+  background: #09090b;
+  border: 1px solid rgba(119, 29, 29, 0.22);
+  box-shadow: 
+    0 22px 50px -12px rgba(119, 29, 29, 0.22),
+    0 10px 24px -4px rgba(0, 0, 0, 0.16);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.fwp-panel-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 28px 65px -12px rgba(119, 29, 29, 0.3),
+    0 12px 30px -4px rgba(0, 0, 0, 0.22);
+}
+
+/* Slide Transition */
+.fwp-media-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px) scale(0.98);
+  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.45s;
+  overflow: hidden;
+}
+
+.fwp-media-slide.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.fwp-media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fwp-panel-card:hover .fwp-media-img {
+  transform: scale(1.03);
+}
+
+/* Scrim Overlay with High-Contrast Typography matching the Video */
+.fwp-media-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top, 
+    rgba(9, 9, 11, 0.96) 0%, 
+    rgba(15, 12, 12, 0.82) 42%, 
+    rgba(25, 15, 15, 0.35) 75%, 
+    rgba(9, 9, 11, 0.15) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 38px 40px;
+  color: #ffffff;
+  z-index: 3;
+}
+
+@media (max-width: 767px) {
+  .fwp-media-scrim {
+    padding: 26px 24px;
+  }
+}
+
+/* Kicker Badge above title */
+.fwp-media-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  align-self: flex-start;
+  font-family: 'Outfit', 'Noto Sans', sans-serif !important;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #D75151;
+  margin-bottom: 8px;
+}
+
+/* Big Display Title matching the Video ("GROUNDWATER RESOURCES") */
+.fwp-media-title {
+  font-family: 'Outfit', 'Noto Sans', sans-serif !important;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.18;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0 0 14px 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+@media (min-width: 1200px) {
+  .fwp-media-title {
+    font-size: 38px;
+  }
+}
+
+/* Two-tier Descriptive Paragraphs matching the Video */
+.fwp-media-desc-primary {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: #e2e8f0;
+  margin: 0 0 14px 0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.fwp-media-desc-secondary {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #cbd5e1;
+  margin: 0 0 24px 0;
+  padding-left: 12px;
+  border-left: 2px solid #D75151;
+  opacity: 0.9;
+}
+
+/* Explore Link with Arrow matching the Video ("→ Explore Service") */
+.fwp-explore-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Outfit', 'Noto Sans', sans-serif !important;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 11px 22px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  align-self: flex-start;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.fwp-explore-link:hover {
+  background: #771D1D;
+  border-color: #D75151;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(119, 29, 29, 0.5);
+  text-decoration: none;
+}
+
+.fwp-explore-link i {
+  font-size: 13px;
+  transition: transform 0.25s ease;
+}
+
+.fwp-explore-link:hover i {
+  transform: translateX(4px);
+}
+
+/* ==========================================================================
+   RIGHT COLUMN: INTERACTIVE VERTICAL LIST
+   Matching the Video:
+     - Number on top (01, 02, ...)
+     - Title below
+     - Arrow appears on hover (→ Title)
+     - Solid Cinnamon Crimson (#771D1D) background when active!
+   ========================================================================== */
+.fwp-list-wrapper {
+  background: #ffffff;
+  border: 1px solid rgba(119, 29, 29, 0.16);
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+.fwp-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Inactive List Item */
+.fwp-item {
+  position: relative;
+  padding: 22px 28px;
+  cursor: pointer;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(119, 29, 29, 0.12);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  border-left: 4px solid transparent;
+}
+
+.fwp-item:last-child {
+  border-bottom: none;
+}
+
+/* Item Number on top */
+.fwp-item-num {
+  display: block;
+  font-family: 'Outfit', 'Noto Sans', monospace !important;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #771D1D;
+  margin-bottom: 6px;
+  transition: color 0.2s ease;
+}
+
+/* Item Title with Hover Arrow */
+.fwp-item-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 17.5px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.fwp-hover-arrow {
+  display: inline-block;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  color: #771D1D;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+/* Category Subtitle */
+.fwp-item-cat {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748b;
+  transition: color 0.2s ease;
+}
+
+/* Hover State on Inactive Item */
+.fwp-item:hover {
+  background: rgba(119, 29, 29, 0.035);
+  padding-left: 32px;
+}
+
+.fwp-item:hover .fwp-hover-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fwp-item:hover .fwp-item-title {
+  color: #771D1D;
+}
+
+/* ==========================================================================
+   ACTIVE STATE MATCHING THE SCREEN RECORDING AT 00:03
+   Entire block fills with solid Cinnamon Crimson (#771D1D)
+   Amber left indicator, pure white text, and live progress bar
+   ========================================================================== */
+.fwp-item.active {
+  background: #771D1D !important;
+  border-left: 4px solid #D75151;
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+  padding-left: 32px;
+  box-shadow: 0 8px 24px rgba(119, 29, 29, 0.3);
+}
+
+.fwp-item.active .fwp-item-num {
+  color: #D75151;
+}
+
+.fwp-item.active .fwp-item-title {
+  color: #ffffff;
+}
+
+.fwp-item.active .fwp-hover-arrow {
+  opacity: 1;
+  transform: translateX(0);
+  color: #D75151;
+}
+
+.fwp-item.active .fwp-item-cat {
+  color: #f1f5f9;
+  opacity: 0.9;
+}
+
+/* Animated Progress Track on the Active Block */
+.fwp-progress-track {
+  display: none;
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  margin-top: 14px;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.fwp-item.active .fwp-progress-track {
+  display: block;
+}
+
+.fwp-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #D75151 0%, #ffffff 100%);
+  box-shadow: 0 0 6px rgba(218, 137, 86, 0.8);
+  transition: width 0.1s linear;
+}

@@ -1,0 +1,324 @@
+/* ==========================================================================
+   SOCIAL INITIATIVES SECTION CSS
+   Design: Diagonal Alternating Editorial Flow (Down-to-Down, No Carousel)
+   Aesthetic:
+   - Clean, airy White & Transparent background
+   - Zero rectangular / square boxes around items (pure whitespace & organic curves)
+   - Strict Noto Sans font across all typography
+   - Diagonal image-text layout (Right -> Left -> Right -> Left)
+   - Inspired by the reference diagonal split recording
+   ========================================================================== */
+
+/* Base Section */
+.social-initiatives-section {
+  position: relative;
+  width: 100%;
+  background: #ffffff;
+  padding: 100px 0 120px 0;
+  color: #111827;
+  font-family: 'Noto Sans', sans-serif !important;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Ensure Noto Sans everywhere in this section */
+.social-initiatives-section * {
+  font-family: 'Noto Sans', sans-serif !important;
+}
+
+/* Subtle architectural dot grid in pure white/transparent space */
+.social-initiatives-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(119, 29, 29, 0.04) 1.2px, transparent 1.2px);
+  background-size: 28px 28px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.si-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Section Header
+   ========================================================================== */
+.si-section-header {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 64px auto;
+}
+
+.si-main-title {
+  font-size: 2.75rem;
+  font-weight: 900;
+  color: #111827;
+  letter-spacing: -0.03em;
+  margin: 0;
+  line-height: 1.15;
+}
+
+/* ==========================================================================
+   Diagonal Feed (Down to Down, Alternating Rhythm)
+   ========================================================================== */
+.si-diagonal-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 72px;
+  width: 100%;
+}
+
+/* Individual Row Item: Strictly NO boxed borders or containers */
+.si-item {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 68px;
+  align-items: center;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 24px 0;
+  box-sizing: border-box;
+}
+
+/* Alternating Image Position: Image Left, Text Right */
+.si-item.si-image-left {
+  grid-template-columns: 1.15fr 1fr;
+}
+
+/* ==========================================================================
+   Text Column (Clean, floating typography without borders)
+   ========================================================================== */
+.si-text-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: transparent !important;
+  border: none !important;
+  box-sizing: border-box;
+  padding: 8px 0;
+}
+
+.si-item-num {
+  display: block;
+  font-size: 3.6rem;
+  font-weight: 900;
+  color: rgba(119, 29, 29, 0.12);
+  line-height: 1;
+  margin-bottom: 12px;
+  letter-spacing: -0.04em;
+  user-select: none;
+}
+
+.si-item-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: #771D1D;
+  margin-bottom: 10px;
+}
+
+.si-item-title {
+  font-size: 2.15rem;
+  font-weight: 800;
+  color: #111827;
+  line-height: 1.22;
+  letter-spacing: -0.025em;
+  margin: 0 0 16px 0;
+}
+
+.si-item-desc {
+  font-size: 1.05rem;
+  line-height: 1.78;
+  color: #374151;
+  margin: 0 0 28px 0;
+  font-weight: 400;
+}
+
+.si-item-desc strong {
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Elegant Underline Action Link with Arrow */
+.si-action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #771D1D;
+  text-decoration: none;
+  padding-bottom: 5px;
+  border-bottom: 2px solid rgba(119, 29, 29, 0.3);
+  width: fit-content;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.si-link-arrow {
+  transition: transform 0.28s ease;
+}
+
+.si-action-link:hover {
+  color: #A72626;
+  border-bottom-color: #771D1D;
+  transform: translateX(2px);
+}
+
+.si-action-link:hover .si-link-arrow {
+  transform: translateX(4px);
+}
+
+/* ==========================================================================
+   Media Column (Organic curved image with natural photo depth)
+   ========================================================================== */
+.si-media-col {
+  width: 100%;
+  background: transparent !important;
+  border: none !important;
+  box-sizing: border-box;
+}
+
+.si-img-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 0;
+  overflow: hidden;
+  background: #f3f4f6;
+  border: none !important;
+  box-shadow: 0 22px 50px -15px rgba(119, 29, 29, 0.16), 0 12px 25px -10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+}
+
+.si-img-wrapper:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 30px 65px -15px rgba(119, 29, 29, 0.24), 0 16px 30px -10px rgba(0, 0, 0, 0.12);
+}
+
+.si-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.si-img-wrapper:hover img {
+  transform: scale(1.035);
+}
+
+/* Subtle corner badge tag on the image */
+.si-media-tag {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #771D1D;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 5px 14px;
+  border-radius: 0;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Diagonal Separator Accent (Echoing the diagonal stripes in Image 1)
+   ========================================================================== */
+.si-diagonal-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 56px 0 0 0;
+  opacity: 0.7;
+  user-select: none;
+}
+
+.si-slash {
+  display: inline-block;
+  width: 48px;
+  height: 3.5px;
+  background: linear-gradient(90deg, #771D1D, #D75151);
+  transform: skewX(-35deg);
+  border-radius: 0;
+  box-shadow: 0 2px 6px rgba(119, 29, 29, 0.2);
+  transition: all 0.3s ease;
+}
+
+.si-slash-1 { opacity: 0.45; }
+.si-slash-2 { opacity: 0.85; }
+.si-slash-3 { opacity: 1; }
+
+.si-diagonal-separator.reverse .si-slash {
+  transform: skewX(35deg);
+}
+
+.si-diagonal-separator.reverse .si-slash-1 { opacity: 1; }
+.si-diagonal-separator.reverse .si-slash-2 { opacity: 0.85; }
+.si-diagonal-separator.reverse .si-slash-3 { opacity: 0.45; }
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .si-item,
+  .si-item.si-image-left {
+    grid-template-columns: 1fr 1fr;
+    gap: 44px;
+  }
+  .si-item-title {
+    font-size: 1.85rem;
+  }
+  .si-main-title {
+    font-size: 2.35rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .social-initiatives-section {
+    padding: 70px 0 90px 0;
+  }
+  .si-container {
+    padding: 0 20px;
+  }
+  .si-section-header {
+    margin-bottom: 48px;
+  }
+  .si-main-title {
+    font-size: 2rem;
+  }
+  .si-item,
+  .si-item.si-image-left {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  /* On mobile, always display image above text */
+  .si-item.si-image-right .si-media-col {
+    order: -1;
+  }
+  .si-item.si-image-left .si-media-col {
+    order: -1;
+  }
+  .si-item-title {
+    font-size: 1.65rem;
+  }
+  .si-diagonal-separator {
+    margin: 18px 0;
+  }
+}

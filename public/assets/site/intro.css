@@ -1,0 +1,80 @@
+/* NIT Rourkela homepage: opening sequence.
+   The seal assembles from its own pieces while the page loads, then the view is pulled through the
+   gear's central hole into the homepage. Shown once per browser session; never with reduced motion.
+   The <head> script adds html.intro-on only when it should play, so without JS nothing here shows. */
+
+.intro, .intro-skip { display: none; }
+
+html.intro-on .intro {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 1000010; /* above the accessibility widget (1000000) */
+  background: var(--white, #fff);
+  /* Failsafe: if the script never finishes, the veil still lifts. */
+  animation: intro-failsafe .4s ease 10s forwards;
+}
+/* Once the canvas paints the paper itself, the element must be see-through so the hole can open. */
+html.intro-on .intro.is-live { background: transparent; }
+
+.intro-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
+.intro-name {
+  position: absolute;
+  left: 50%;
+  top: var(--name-top, 62%);
+  width: min(92vw, 820px);
+  transform: translateX(-50%);
+  text-align: center;
+  font-family: var(--font, "Noto Sans", sans-serif);
+  color: var(--ink, #150202);
+  line-height: 1.35;
+}
+.intro-name p { margin: 0; opacity: 0; transform: translateY(10px); transition: opacity .7s var(--ease), transform .9s var(--ease); }
+.intro-name .intro-en { font-family: var(--display, "Noto Sans", sans-serif); font-size: var(--t-h1); font-weight: 700; text-transform: uppercase; line-height: 1.2; }
+.intro-name .intro-hi { font-family: var(--font-hi); font-size: var(--t-p2); color: var(--grey-3, #606060); margin-top: 6px; }
+.intro-name .intro-or { font-family: var(--font-or); font-size: var(--t-p2); color: var(--grey-3, #606060); margin-top: 2px; }
+.intro.is-named .intro-name p { opacity: 1; transform: none; }
+.intro.is-named .intro-hi { transition-delay: .12s; }
+.intro.is-named .intro-or { transition-delay: .24s; }
+
+/* Load progress, counting to 100 while the gear turns. */
+.intro-name .intro-percent {
+  margin-top: 14px;
+  font-family: var(--display, "Noto Sans", sans-serif);
+  font-size: var(--t-h2);
+  font-weight: 700;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+  color: var(--cin, #771d1d);
+}
+.intro.is-named .intro-percent { transition-delay: .36s; }
+
+.intro.is-diving .intro-name p { opacity: 0; transform: translateY(-6px); transition: opacity .25s ease, transform .4s ease; transition-delay: 0s; }
+
+html.intro-on .intro-skip {
+  display: block;
+  position: fixed;
+  right: var(--gutter, 24px);
+  bottom: var(--gutter, 24px);
+  z-index: 1000011;
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink, #150202);
+  font: 500 var(--t-p2, 14px)/1.2 var(--font, "Noto Sans", sans-serif);
+  text-decoration: underline;
+  text-decoration-color: var(--cin-3, #d75151);
+  text-underline-offset: 4px;
+  cursor: pointer;
+  animation: intro-failsafe .4s ease 10s forwards;
+}
+html.intro-on .intro-skip:hover { color: var(--cin-2, #a72626); }
+html.intro-on .intro-skip.is-gone { opacity: 0; pointer-events: none; transition: opacity .2s ease; }
+
+@keyframes intro-failsafe { to { opacity: 0; visibility: hidden; pointer-events: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  html.intro-on .intro, html.intro-on .intro-skip { display: none; }
+}

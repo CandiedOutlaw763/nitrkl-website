@@ -1,0 +1,821 @@
+/* ==========================================================================
+   ACHIEVEMENTS & SEMINARS Showcase CSS
+   Design: Dark Editorial Split with Cinnamon Red Brand Palette
+   Brand Color Codes:
+   - Cinnamon Dark:    #771D1D
+   - Cinnamon Primary: #A72626
+   - Cinnamon Vibrant: #D75151
+   - Cinnamon Tint:    #FAAAAA
+   - Cinnamon Light:   #FCDADA
+   Features:
+   - Rich Cinnamon Red background (#771D1D gradient)
+   - Rock-solid zero-shaking layout (strictly frozen heights across all elements)
+   - Guaranteed visible editorial column (explicit 460px width + min-width: 0 protection)
+   - Perfect 4:3 native aspect ratio for all media cards (matching 600x450 images)
+   - Integrated Toolbar for selecting Faculty and Student achievements
+   - Signature red circular outline ring arrow buttons
+   ========================================================================== */
+
+:root {
+  --fasa-dark: #771D1D;
+  --fasa-primary: #A72626;
+  --fasa-vibrant: #D75151;
+  --fasa-tint: #FAAAAA;
+  --fasa-light: #FCDADA;
+  --fasa-bg: #771D1D;
+  --fasa-surface: #561212;
+  --fasa-border: rgba(250, 170, 170, 0.28);
+  --fasa-text-main: #ffffff;
+  --fasa-text-muted: #FCDADA;
+
+  /* Perfect 4:3 Aspect Ratio Card Metrics */
+  --fasa-card-w: 560px;
+  --fasa-card-h: 420px; /* Exactly 4:3 (560 / 420 = 1.3333) matching 600x450 images */
+  --fasa-card-gap: 24px;
+}
+
+/* ==========================================================================
+   Base Section - Cinnamon Red (#771D1D) Background
+   ========================================================================== */
+.fasa-section {
+  position: relative;
+  width: 100%;
+  background-color: #771D1D !important;
+  background: #771D1D !important;
+  color: var(--fasa-text-main);
+  padding: 80px 0 100px 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  contain: layout;
+}
+
+/* Solid background (#771D1D) - No grid pattern */
+.fasa-section::before {
+  display: none !important;
+}
+
+/* Ambient glow accents disabled for pure solid background */
+.fasa-glow-orb,
+.fasa-glow-1,
+.fasa-glow-2 {
+  display: none !important;
+}
+
+.fasa-container {
+  position: relative;
+  z-index: 2;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 32px;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   Top Header Bar: Title "ACHIEVEMENTS" & Toolbar to select Student/Faculty
+   ========================================================================== */
+.fasa-top-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 36px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid rgba(250, 170, 170, 0.25);
+}
+
+.fasa-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fasa-kicker-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fasa-kicker-bar {
+  width: 26px;
+  height: 2.5px;
+  background: #FAAAAA;
+  border-radius: 0;
+  box-shadow: 0 0 10px rgba(250, 170, 170, 0.7);
+}
+
+.fasa-kicker-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #FCDADA;
+}
+
+.fasa-section-main-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* Toolbar to Select Student and Faculty */
+.fasa-toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(25, 6, 6, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0;
+  padding: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.fasa-toolbar-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  outline: none;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  padding: 8px 22px;
+  border-radius: 0;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.fasa-toolbar-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.fasa-toolbar-btn.is-active {
+  background: #A72626;
+  color: #ffffff;
+  border: 1px solid #A72626;
+  border-radius: 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================================================
+   Split Layout Grid: Rock-Solid 460px Left Editorial + minmax(0, 1fr) Gallery
+   ========================================================================== */
+.fasa-layout-grid {
+  display: grid;
+  grid-template-columns: 460px minmax(0, 1fr);
+  gap: 52px;
+  align-items: center;
+  height: 420px; /* Locked to exact 4:3 card height */
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Left Column: Editorial & Storytelling (Guaranteed 460px width, zero squeezing) */
+.fasa-editorial-col {
+  width: 460px;
+  min-width: 460px;
+  max-width: 460px;
+  flex: 0 0 460px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 420px;
+  max-height: 420px;
+  min-height: 420px;
+  padding-right: 12px;
+  box-sizing: border-box;
+  overflow: hidden;
+  z-index: 2;
+}
+
+/* Category kicker inside editorial col */
+.fasa-editorial-kicker {
+  display: flex;
+  align-items: center;
+  height: 24px;
+  margin-bottom: 8px;
+}
+
+/* Story Wrap: Fixed height bounds so text changes NEVER resize outer box */
+.fasa-story-wrap {
+  height: 232px;
+  min-height: 232px;
+  max-height: 232px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.fasa-story-wrap.is-animating {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.fasa-headline {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.24;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin: 0 0 12px 0;
+  height: 5.1rem;
+  min-height: 5.1rem;
+  max-height: 5.1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-wrap: balance;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.fasa-description {
+  font-size: 1rem;
+  line-height: 1.62;
+  color: #FCDADA;
+  opacity: 0.92;
+  margin: 0;
+  height: 5rem;
+  min-height: 5rem;
+  max-height: 5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Action Group */
+.fasa-action-group {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  height: 48px;
+  margin: 0;
+}
+
+.fasa-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: #A72626;
+  padding: 12px 24px;
+  border-radius: 0;
+  text-decoration: none;
+  border: 1.5px solid #A72626;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fasa-cta-btn:hover {
+  transform: translateY(-2px);
+  background: #901f1f;
+  border-color: #901f1f;
+  color: #ffffff;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55);
+}
+
+.fasa-cta-arrow {
+  transition: transform 0.3s ease;
+}
+
+.fasa-cta-btn:hover .fasa-cta-arrow {
+  transform: translateX(4px);
+}
+
+.fasa-secondary-link {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #FCDADA;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.25s ease;
+}
+
+.fasa-secondary-link:hover {
+  color: #ffffff;
+  transform: translateX(3px);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+}
+
+/* Bespoke Navigation Controls (Matching Screen Recording fasa) */
+.fasa-nav-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(250, 170, 170, 0.2);
+  margin-top: 8px;
+  height: 56px;
+  box-sizing: border-box;
+}
+
+/* The Signature Arrow Button with glowing circular outline ring on hover/active */
+.fasa-arrow-btn {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 0;
+  border: 1.5px solid rgba(250, 170, 170, 0.35);
+  background: rgba(45, 10, 10, 0.6);
+  color: #FCDADA;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+  user-select: none;
+}
+
+/* Signature Red Square Outline Ring */
+.fasa-arrow-btn::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 0;
+  border: 1.8px solid #FCDADA;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 0 18px rgba(250, 170, 170, 0.7);
+  pointer-events: none;
+}
+
+.fasa-arrow-btn:hover,
+.fasa-arrow-btn:active,
+.fasa-arrow-btn.is-active {
+  background: rgba(167, 38, 38, 0.5);
+  color: #ffffff;
+  border-color: #FCDADA;
+  transform: scale(1.04);
+}
+
+.fasa-arrow-btn:hover::after,
+.fasa-arrow-btn:active::after,
+.fasa-arrow-btn.is-active::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.fasa-arrow-btn svg {
+  transition: transform 0.2s ease;
+}
+
+.fasa-arrow-btn.fasa-prev:hover svg {
+  transform: translateX(-2px);
+}
+
+.fasa-arrow-btn.fasa-next:hover svg {
+  transform: translateX(2px);
+}
+
+/* Minimal Counter Display */
+.fasa-counter-display {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(252, 218, 218, 0.7);
+  padding: 0 10px;
+}
+
+.fasa-count-current {
+  font-size: 18px;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  text-shadow: 0 0 12px rgba(250, 170, 170, 0.8);
+}
+
+.fasa-count-divider {
+  color: #FAAAAA;
+}
+
+.fasa-count-total {
+  font-size: 14px;
+  color: rgba(252, 218, 218, 0.75);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Play/Pause Button */
+.fasa-playpause-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 0;
+  border: 1px solid rgba(250, 170, 170, 0.35);
+  background: rgba(45, 10, 10, 0.5);
+  color: #FCDADA;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-left: auto;
+}
+
+.fasa-playpause-btn:hover {
+  background: rgba(167, 38, 38, 0.45);
+  color: #ffffff;
+  border-color: #FAAAAA;
+}
+
+/* ==========================================================================
+   Right Column: Sliding Cards Gallery (Strict 4:3 Ratio, ZERO scale shaking)
+   ========================================================================== */
+.fasa-gallery-col {
+  position: relative;
+  min-width: 0;
+  width: 100%;
+  height: 420px;
+  overflow: hidden; /* Strict overflow containment */
+  border-radius: 0;
+  z-index: 1;
+}
+
+.fasa-gallery-stage {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+  border-radius: 0;
+}
+
+/* The Sliding Track: Pure horizontal translation without scale jumping */
+.fasa-cards-track {
+  display: flex;
+  gap: var(--fasa-card-gap);
+  height: 420px;
+  transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.3, 1);
+  will-change: transform;
+}
+
+/* Individual Card (Perfect 4:3 Aspect Ratio matching 600x450 image dimensions) */
+.fasa-card-item {
+  position: relative;
+  flex: 0 0 var(--fasa-card-w);
+  width: var(--fasa-card-w);
+  height: var(--fasa-card-h);
+  aspect-ratio: 4 / 3;
+  border-radius: 0;
+  overflow: hidden;
+  background: #000;
+  border: 1.5px solid rgba(250, 170, 170, 0.25);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  transition: opacity 0.35s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+  box-sizing: border-box;
+  transform: none; /* STRICTLY NO SCALE: keeps outer box size 100% frozen */
+}
+
+.fasa-card-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  aspect-ratio: 4 / 3;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fasa-card-item:hover img {
+  transform: scale(1.025);
+}
+
+/* Inactive Card: Dimmed opacity, exact same size (no shaking) */
+.fasa-card-item:not(.is-active) {
+  opacity: 0.5;
+  filter: brightness(0.85);
+  border-color: rgba(250, 170, 170, 0.22);
+}
+
+.fasa-card-item:not(.is-active):hover {
+  opacity: 0.8;
+  filter: brightness(0.95);
+}
+
+/* Active Card: Bright, prominent Cinnamon glow, exact same size */
+.fasa-card-item.is-active {
+  opacity: 1;
+  filter: none;
+  border-color: #FAAAAA;
+  box-shadow: 0 25px 65px -10px rgba(0, 0, 0, 0.8), 0 0 35px rgba(215, 81, 81, 0.45);
+}
+
+/* Subtle Vignette on the Card */
+.fasa-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(119, 29, 29, 0.08) 0%, transparent 40%, rgba(30, 8, 8, 0.75) 100%);
+  pointer-events: none;
+}
+
+.fasa-card-tag {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(45, 10, 10, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(250, 170, 170, 0.45);
+  padding: 6px 14px;
+  border-radius: 0;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #FAAAAA;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+@media (max-width: 1200px) {
+  :root {
+    --fasa-card-w: 480px;
+    --fasa-card-h: 360px; /* 4:3 */
+  }
+  .fasa-layout-grid {
+    grid-template-columns: 390px minmax(0, 1fr);
+    gap: 36px;
+    height: 360px;
+  }
+  .fasa-editorial-col {
+    width: 390px;
+    min-width: 390px;
+    max-width: 390px;
+    flex: 0 0 390px;
+    height: 360px;
+    max-height: 360px;
+    min-height: 360px;
+  }
+  .fasa-gallery-col,
+  .fasa-gallery-stage,
+  .fasa-cards-track {
+    height: 360px;
+  }
+  .fasa-story-wrap {
+    height: 190px;
+    min-height: 190px;
+    max-height: 190px;
+  }
+  .fasa-headline {
+    font-size: 1.75rem;
+    height: 4.5rem;
+    min-height: 4.5rem;
+    max-height: 4.5rem;
+  }
+}
+
+@media (max-width: 991px) {
+  .fasa-top-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .fasa-layout-grid {
+    grid-template-columns: 1fr;
+    height: auto;
+    gap: 36px;
+  }
+  .fasa-editorial-col {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    flex: none;
+    height: auto;
+    max-height: none;
+    min-height: auto;
+  }
+  .fasa-story-wrap {
+    height: auto;
+    max-height: none;
+    min-height: auto;
+  }
+  .fasa-headline {
+    height: auto;
+    min-height: auto;
+    max-height: none;
+    font-size: 1.7rem;
+    -webkit-line-clamp: 4;
+  }
+  .fasa-description {
+    height: auto;
+    min-height: auto;
+    max-height: none;
+    -webkit-line-clamp: 4;
+  }
+  .fasa-card-item {
+    flex: 0 0 85vw;
+    width: 85vw;
+    height: calc(85vw * 0.75); /* 4:3 */
+  }
+  .fasa-gallery-col,
+  .fasa-gallery-stage,
+  .fasa-cards-track {
+    height: calc(85vw * 0.75);
+  }
+}
+
+/* ==========================================================================
+   Centered Seminars Section - Cinnamon Red (#771D1D) Background Theme
+   ========================================================================== */
+.upcoming-section.seminar-centered-section {
+  background-color: #771D1D !important;
+  background: #771D1D !important;
+  padding: 65px 0 85px 0 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Solid background (#771D1D) - No grid pattern */
+.upcoming-section.seminar-centered-section::before {
+  display: none !important;
+}
+
+.seminar-center-container {
+  position: relative;
+  z-index: 2;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.seminar-centered-section .item-seminar {
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* Header */
+.seminar-header-group {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.seminar-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.seminar-main-heading {
+  font-size: 2.2rem !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  margin: 0 !important;
+  line-height: 1 !important;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6) !important;
+}
+
+.seminar-all-link {
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 9px 22px !important;
+  background: rgba(30, 8, 8, 0.75) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  border-radius: 0 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.seminar-all-link:hover {
+  color: #ffffff !important;
+  background: #A72626 !important;
+  border-color: #A72626 !important;
+  transform: translateX(3px) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Seminar Scroll Ticker Container */
+.seminar-centered-section .seminar-scroll {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Individual Seminar Card */
+.seminar-centered-section .seminar-scroll li {
+  list-style: none !important;
+  margin: 12px 0 !important;
+  display: grid !important;
+  grid-template-columns: 88px 1fr !important;
+  background: rgba(25, 6, 6, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 0 !important;
+  padding: 8px !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  box-sizing: border-box !important;
+}
+
+.seminar-centered-section .seminar-scroll li:hover {
+  border-color: #A72626 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.6) !important;
+  background: rgba(35, 8, 8, 0.92) !important;
+}
+
+/* Date Badge on Left */
+.seminar-centered-section .seminar-scroll li .date {
+  font-size: 1.15rem !important;
+  font-weight: 800 !important;
+  text-align: center !important;
+  color: #ffffff !important;
+  background: #A72626 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 0 !important;
+  min-height: 72px !important;
+  line-height: 1.15 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Description Content on Right */
+.seminar-centered-section .seminar-scroll li .desc {
+  padding: 8px 16px !important;
+  background: transparent !important;
+  border: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.seminar-centered-section .seminar-scroll li .desc span {
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  color: #FAAAAA !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.seminar-centered-section .seminar-scroll li .desc span i {
+  color: #D75151 !important;
+}
+
+.seminar-centered-section .seminar-scroll li .desc hr {
+  border-color: rgba(250, 170, 170, 0.2) !important;
+  margin: 6px 0 !important;
+  opacity: 0.7 !important;
+}
+
+.seminar-centered-section .seminar-scroll li .desc .title {
+  font-size: 0.95rem !important;
+  line-height: 1.45 !important;
+  color: #f3f4f6 !important;
+  margin: 0 !important;
+  font-weight: 500 !important;
+}
+
+.seminar-centered-section .seminar-scroll li .desc a {
+  color: #FAAAAA !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+  text-decoration: underline !important;
+  margin-left: 6px !important;
+  transition: color 0.2s ease !important;
+}
+
+.seminar-centered-section .seminar-scroll li .desc a:hover {
+  color: #ffffff !important;
+  text-shadow: 0 0 10px rgba(250, 170, 170, 0.6) !important;
+}

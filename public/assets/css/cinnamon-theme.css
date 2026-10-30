@@ -1,0 +1,133 @@
+/* ==========================================================================
+   NIT Rourkela - Cinnamon Red Global Theme
+   Palette:
+     #771D1D - Deep Cinnamon Red (Primary Dark)
+     #A72626 - Crimson Red (Primary Accent & Brand Key)
+     #D75151 - Coral Red (Vibrant Highlight)
+     #FAAAAA - Light Cinnamon (Borders & Subtle Accents)
+     #FCDADA - Soft Cinnamon Tint (Backgrounds & Soft Badges)
+   ========================================================================== */
+
+:root {
+  --cinnamon-dark: #771D1D;
+  --cinnamon-crimson: #A72626;
+  --cinnamon-coral: #D75151;
+  --cinnamon-light: #FAAAAA;
+  --cinnamon-tint: #FCDADA;
+
+  --bs-primary: #771D1D;
+  --bs-primary-rgb: 119, 29, 29;
+  --bs-secondary: #A72626;
+  --bs-secondary-rgb: 167, 38, 38;
+  --bs-link-color: #771D1D;
+  --bs-link-hover-color: #A72626;
+}
+
+/* Header Top Bar */
+header .top-section {
+  background-color: #771D1D !important;
+  border-bottom: 1px solid rgba(250, 170, 170, 0.2) !important;
+}
+
+/* Header Main Navigation Links & Active Indicators */
+header .main-navigation .navbar-nav .nav-item .nav-link:hover,
+header .main-navigation .navbar-nav .nav-item.active .nav-link {
+  color: #771D1D !important;
+}
+
+header .main-navigation .navbar-nav .nav-item .nav-link::before {
+  background-color: #771D1D !important;
+}
+
+.megamenu-panel h5 a {
+  color: #771D1D !important;
+}
+
+.megamenu-panel ul li a:hover {
+  color: #A72626 !important;
+}
+
+/* Headings & Text Accents */
+.heading,
+h1 .highlight,
+h2 .highlight,
+.section-title span,
+.title-bar,
+.highlight-text {
+  color: #771D1D !important;
+}
+
+/* Buttons */
+.btn-primary,
+.btn-theme,
+.fasa-cta-btn,
+.btn-action {
+  background-color: #A72626 !important;
+  border-color: #A72626 !important;
+  color: #ffffff !important;
+}
+
+.btn-primary:hover,
+.btn-theme:hover,
+.fasa-cta-btn:hover {
+  background-color: #771D1D !important;
+  border-color: #771D1D !important;
+  color: #ffffff !important;
+}
+
+/* Badges & Accents */
+.badge-primary,
+.bg-primary {
+  background-color: #771D1D !important;
+}
+
+.text-primary {
+  color: #771D1D !important;
+}
+
+.border-primary {
+  border-color: #771D1D !important;
+}
+
+/* Notice Board & Announcement Tabs */
+.news-section .item-notice .nav-tabs button.active {
+  background-color: #771D1D !important;
+  border-color: #771D1D !important;
+  color: #ffffff !important;
+}
+
+.item-notice .scrollitem a:hover {
+  color: #771D1D !important;
+}
+
+/* Quick Links & Category Cards */
+.quick-links-section .tab-pane .card:hover,
+.campus-facility .card:hover {
+  border-color: #A72626 !important;
+}
+
+/* Footer Section */
+footer .footer-row h4 {
+  color: #771D1D !important;
+}
+
+footer .footer-bottom,
+footer .copyright-section {
+  background-color: #771D1D !important;
+}
+
+footer .social-links a:hover {
+  background-color: #A72626 !important;
+  color: #ffffff !important;
+}
+
+/* Selection / Highlight */
+::selection {
+  background: #A72626;
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background: #A72626;
+  color: #ffffff;
+}

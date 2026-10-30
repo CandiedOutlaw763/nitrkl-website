@@ -1,0 +1,297 @@
+/* ==========================================================================
+   NIT Rourkela - Scroll-Expansion Hero & Banner Slides CSS
+   Brand Color Palette: Cinnamon Red (#771D1D, #A72626, #D75151, #FAAAAA, #FCDADA)
+   Inspiration: Edolus.com Cinematic Horizontal Scroll & Expansion
+   Pure Photo & Video Presentation - Zero Overlaid Texts or Icons
+   ========================================================================== */
+
+:root {
+  --cinnamon-dark: #771D1D;
+  --cinnamon-primary: #A72626;
+  --cinnamon-vibrant: #D75151;
+  --cinnamon-tint: #FAAAAA;
+  --cinnamon-light: #FCDADA;
+  --cinnamon-deep: #4d1111;
+  --cinnamon-ultra-deep: #2a0808;
+  --cinnamon-void: #130202;
+
+  /* Card metrics - increased size for prominent, cinematic presentation */
+  --card-w: 680px;
+  --card-h: 420px;
+  --card-gap: 40px;
+  --card-radius: 22px;
+}
+
+/* Outer Scroll Container - provides scroll track distance for horizontal scroll & expansion */
+.seh-hero-section {
+  position: relative;
+  width: 100%;
+  height: 380vh; /* Smooth, generous multi-phase scroll track */
+  background: var(--cinnamon-void);
+  margin: 0;
+  padding: 0;
+  contain: paint;
+}
+
+/* Sticky Stage - pins in the viewport while user scrolls through the 380vh container */
+.seh-sticky-stage {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse 95% 75% at 50% 50%, #460f0f 0%, #240505 55%, var(--cinnamon-void) 100%);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Ambient Cinnamon Red Background Layer */
+.seh-ambient-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Cinematic Cinnamon Red Glow Orbs */
+.seh-cinnamon-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(85px);
+  will-change: transform;
+}
+
+.seh-glow-1 {
+  width: 720px;
+  height: 720px;
+  top: -100px;
+  left: 3%;
+  background: radial-gradient(circle, rgba(215, 81, 81, 0.35) 0%, rgba(167, 38, 38, 0.15) 55%, transparent 75%);
+  animation: sehGlowFloat1 18s infinite alternate ease-in-out;
+}
+
+.seh-glow-2 {
+  width: 780px;
+  height: 780px;
+  bottom: -120px;
+  right: 3%;
+  background: radial-gradient(circle, rgba(167, 38, 38, 0.38) 0%, rgba(119, 29, 29, 0.18) 55%, transparent 70%);
+  animation: sehGlowFloat2 22s infinite alternate-reverse ease-in-out;
+}
+
+.seh-glow-3 {
+  width: 580px;
+  height: 580px;
+  top: 35%;
+  left: 38%;
+  background: radial-gradient(circle, rgba(250, 170, 170, 0.2) 0%, rgba(215, 81, 81, 0.1) 50%, transparent 70%);
+  animation: sehGlowFloat3 14s infinite alternate ease-in-out;
+}
+
+@keyframes sehGlowFloat1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(45px, -35px) scale(1.08); }
+  100% { transform: translate(-35px, 45px) scale(0.94); }
+}
+
+@keyframes sehGlowFloat2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-55px, 35px) scale(1.1); }
+  100% { transform: translate(35px, -45px) scale(0.96); }
+}
+
+@keyframes sehGlowFloat3 {
+  0% { transform: scale(0.9) translate(-25px, 25px); opacity: 0.55; }
+  100% { transform: scale(1.18) translate(25px, -25px); opacity: 0.88; }
+}
+
+/* Organic Flowing Ribbon Waves (Matching Edolus light wave visual aesthetics in Cinnamon Red) */
+.seh-ribbon-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.92;
+  pointer-events: none;
+  transform-origin: center center;
+}
+
+.seh-ribbon-path {
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.seh-ribbon-1 {
+  animation: sehRibbonMotion1 16s ease-in-out infinite alternate;
+}
+
+.seh-ribbon-2 {
+  animation: sehRibbonMotion2 20s ease-in-out infinite alternate;
+}
+
+.seh-ribbon-3 {
+  animation: sehRibbonMotion3 14s ease-in-out infinite alternate;
+}
+
+@keyframes sehRibbonMotion1 {
+  0% { transform: translateY(0) scaleY(1); }
+  50% { transform: translateY(-28px) scaleY(1.07); }
+  100% { transform: translateY(20px) scaleY(0.94); }
+}
+
+@keyframes sehRibbonMotion2 {
+  0% { transform: translateY(0) scaleX(1); }
+  50% { transform: translateY(32px) scaleX(1.04); }
+  100% { transform: translateY(-24px) scaleX(0.97); }
+}
+
+@keyframes sehRibbonMotion3 {
+  0% { opacity: 0.32; transform: translateY(0); }
+  100% { opacity: 0.5; transform: translateY(-18px); }
+}
+
+.seh-ambient-overlay {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 75% 55% at 50% 50%, rgba(215, 81, 81, 0.16) 0%, transparent 65%),
+    linear-gradient(180deg, rgba(19, 2, 2, 0.35) 0%, transparent 22%, transparent 78%, rgba(19, 2, 2, 0.85) 100%);
+  pointer-events: none;
+}
+
+/* Cards Track Stage */
+.seh-stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 10;
+  overflow: visible;
+}
+
+/* Horizontal Track of Cards - Perfectly centered vertically in the viewport */
+.seh-cards-track {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--card-gap);
+  will-change: transform;
+  pointer-events: auto;
+}
+
+/* Individual Card (Pure Photo/Video Showcase - Increased size, vivid visibility, Zero Texts or Icons) */
+.seh-card {
+  position: relative;
+  flex-shrink: 0;
+  width: var(--card-w);
+  height: var(--card-h);
+  border-radius: var(--card-radius);
+  background: #000;
+  overflow: hidden;
+  border: 2px solid rgba(250, 170, 170, 0.4);
+  box-shadow: 
+    0 25px 70px -15px rgba(25, 3, 3, 0.95),
+    0 0 40px rgba(167, 38, 38, 0.35),
+    0 0 15px rgba(215, 81, 81, 0.2);
+  will-change: transform, opacity;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+/* Inner Media Wrapper */
+.seh-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000000;
+}
+
+/* Media Elements: Pure Photos and Videos - 100% crisp and unhindered */
+.seh-card img,
+.seh-card video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Subtle Glassmorphic Gloss Highlight on Top Corner */
+.seh-card-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(252, 218, 218, 0.25) 0%, rgba(250, 170, 170, 0.06) 28%, transparent 55%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* THE LAST BANNER - FOCAL EXPANDING VIDEO CARD */
+.seh-card-focal {
+  z-index: 40;
+  border-color: rgba(250, 170, 170, 0.55);
+  box-shadow: 
+    0 35px 95px -15px rgba(18, 2, 2, 0.98),
+    0 0 60px rgba(215, 81, 81, 0.55);
+  will-change: width, height, border-radius, border-color, box-shadow;
+  transition: box-shadow 0.2s ease;
+}
+
+/* Seamless Cinnamon Red Bottom Fade for Smooth Transition to #about-section-3d */
+.seh-bottom-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 180px;
+  background: linear-gradient(to bottom, transparent 0%, rgba(19, 2, 2, 0.65) 55%, rgba(19, 2, 2, 0.98) 100%);
+  pointer-events: none;
+  z-index: 25;
+}
+
+/* Responsive Breakpoints */
+@media (min-width: 1400px) {
+  :root {
+    --card-w: 720px;
+    --card-h: 440px;
+    --card-gap: 48px;
+    --card-radius: 24px;
+  }
+}
+
+@media (max-width: 1200px) {
+  :root {
+    --card-w: 540px;
+    --card-h: 340px;
+    --card-gap: 32px;
+    --card-radius: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --card-w: 86vw;
+    --card-h: 54vw;
+    --card-gap: 20px;
+    --card-radius: 18px;
+  }
+  .seh-bottom-fade {
+    height: 110px;
+  }
+}

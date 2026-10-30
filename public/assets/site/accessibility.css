@@ -1,0 +1,80 @@
+/* The accessibility tools (assets/js/nitrkl-accessibility.js, styled by assets/css/nitrkl-accessibility.css)
+   in the site's design system: square edges, flat colour, the cinnamon and ink palette, the display face
+   for headings, Noto Sans for everything else, and the Cinnamon Red focus ring. Loaded after the widget's own
+   stylesheet; the widget's markup and behaviour are unchanged. Matches the chat panel (chat.css). */
+
+html:root { --nitrkl-acc-primary: var(--ink, #150202); --nitrkl-acc-primary-hover: var(--cin, #771d1d); --nitrkl-acc-font: var(--font, "Noto Sans", sans-serif); }
+
+/* the round button beside the chat button */
+.nitrkl-acc-trigger { width: 56px; height: 56px; border: 2px solid var(--white, #fff); border-radius: 50%; box-shadow: none; }
+.nitrkl-acc-trigger:hover, .nitrkl-acc-trigger:focus-visible { box-shadow: none; transform: none; }
+.nitrkl-acc-trigger:focus-visible { outline: 3px solid var(--cin-2, #a72626); outline-offset: 3px; }
+.nitrkl-acc-trigger.active { background: var(--cin, #771d1d); box-shadow: none; }
+.nitrkl-acc-count-badge { top: -4px; right: -4px; min-width: 20px; padding: 3px 5px; border-radius: 0; border: 0; background: var(--cin-4, #faaaaa); color: var(--ink, #150202); font-family: var(--font, "Noto Sans", sans-serif); font-size: var(--t-small); text-align: center; }
+
+/* the panel */
+.nitrkl-acc-card {
+  right: 24px; bottom: 92px; width: 360px; border: 0; border-radius: 0;
+  background: var(--linen, #ebeaea); color: var(--ink, #150202);
+  box-shadow: 0 30px 80px -24px rgba(21, 2, 2, .55); /* taste-skill-ignore: floating panel, as the chat panel */
+  transform: translateY(16px); transition: opacity .3s var(--ease, ease), transform .45s var(--ease, ease), visibility .3s;
+}
+.nitrkl-acc-card.open { transform: none; }
+.nitrkl-acc-backdrop { background: rgba(21, 2, 2, .35); backdrop-filter: none; }
+
+.nitrkl-acc-header { padding: 14px 10px 14px 20px; border: 0; background: var(--cin, #771d1d); color: var(--white, #fff); }
+.nitrkl-acc-title { font-family: var(--display, "Noto Sans", sans-serif); font-weight: 700; text-transform: uppercase; font-size: var(--t-h2); line-height: 1.2; letter-spacing: 0; color: var(--white, #fff); }
+.nitrkl-acc-close-btn { width: 44px; height: 44px; border-radius: 0; color: var(--white, #fff); font-size: var(--t-p1); }
+.nitrkl-acc-close-btn:hover { background: rgba(255, 255, 255, .16); color: var(--white, #fff); }
+.nitrkl-acc-close-btn:focus-visible { outline: 3px solid var(--white, #fff); outline-offset: -3px; }
+
+.nitrkl-acc-body { padding: 16px 16px 18px; gap: 18px; scrollbar-color: var(--linen, #ebeaea) transparent; }
+.nitrkl-acc-body::-webkit-scrollbar-thumb { border-radius: 0; background-color: var(--linen, #ebeaea); }
+
+/* group headings in the display face */
+.nitrkl-acc-label { margin-bottom: 8px; font-family: var(--display, "Noto Sans", sans-serif); font-weight: 700; font-size: var(--t-h3); letter-spacing: .01em; line-height: 1.2; color: var(--ink, #150202); }
+.nitrkl-acc-grid { gap: 4px; }
+
+/* square tool buttons: white with a cinnamon icon; the active tool turns solid cinnamon */
+.nitrkl-acc-btn,
+.nitrkl-btn-blue, .nitrkl-btn-green, .nitrkl-btn-peach {
+  border-radius: 0; min-height: 48px; padding: 10px 12px; justify-content: flex-start; gap: 10px; text-align: left;
+  background: var(--white, #fff); color: var(--ink, #150202); font-size: var(--t-p2); font-weight: 600; box-shadow: none;
+  transition: background-color .2s, color .2s;
+}
+.nitrkl-acc-btn .nitrkl-btn-icon { width: 18px; height: 18px; color: var(--cin, #771d1d); transition: color .2s; }
+.nitrkl-acc-btn:hover,
+.nitrkl-btn-blue:hover, .nitrkl-btn-green:hover, .nitrkl-btn-peach:hover { background: var(--cin-5, #fcdada); color: var(--ink, #150202); transform: none; }
+.nitrkl-acc-btn:hover .nitrkl-btn-icon { transform: none; }
+.nitrkl-acc-btn.active,
+.nitrkl-btn-blue.active, .nitrkl-btn-green.active, .nitrkl-btn-peach.active { background: var(--cin, #771d1d); color: var(--white, #fff); box-shadow: none; }
+.nitrkl-acc-btn.active .nitrkl-btn-icon { color: var(--white, #fff); }
+.nitrkl-acc-btn.active::after { top: 6px; right: 8px; font-size: var(--t-small); color: var(--cin-4, #faaaaa); opacity: 1; }
+.nitrkl-acc-btn:focus-visible { outline: 3px solid var(--ink, #150202) !important; outline-offset: 2px !important; }
+
+/* reset: the site's dark button */
+.nitrkl-btn-reset { border-radius: 0; min-height: 48px; margin-top: 2px; background: var(--ink, #150202); color: var(--white, #fff); font-size: var(--t-p2); font-weight: 700; }
+.nitrkl-btn-reset:hover { background: var(--cin, #771d1d); color: var(--white, #fff); }
+.nitrkl-btn-reset:active { background: var(--cin, #771d1d); }
+
+/* the status note after each change */
+.nitrkl-acc-toast { border-radius: 0; background: var(--ink, #150202); font-family: var(--font, "Noto Sans", sans-serif); font-size: var(--t-p2); font-weight: 600; box-shadow: none; padding: 12px 18px; }
+
+/* what the tools do to the page: still loud on purpose, in the site's colours and square */
+body.nitrkl-mode-highlight-links a:not(.nitrkl-acc-ignore):not(.nitrkl-acc-btn) {
+  background-color: #fcdada !important; color: var(--ink, #150202) !important;
+  text-decoration: underline 3px solid var(--ink, #150202) !important;
+  outline: 2px solid var(--cin-2, #a72626) !important; border-radius: 0 !important;
+}
+.nitrkl-img-check-badge { border-radius: 0 !important; box-shadow: none !important; font-family: var(--font, "Noto Sans", sans-serif) !important; font-size: var(--t-small) !important; padding: 5px 8px !important; }
+.nitrkl-img-check-badge.ok { background: #198754 !important; border: 0 !important; }
+.nitrkl-img-check-badge.missing { background: var(--cin, #771d1d) !important; border: 0 !important; animation: none !important; }
+.nitrkl-img-check-missing { outline-color: var(--cin, #771d1d) !important; }
+
+@media (max-width: 720px) {
+  .nitrkl-acc-trigger { width: 52px; height: 52px; right: 16px; bottom: 18px; }
+  .nitrkl-acc-card { right: 0; bottom: 0; width: 100vw; max-width: none; max-height: 100svh; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nitrkl-acc-card { transition: none; }
+}
