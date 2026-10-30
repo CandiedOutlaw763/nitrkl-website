@@ -113,14 +113,19 @@
     return div;
   }
   // A new question moves to the top of the log once, and its answer grows below it without the view
-  // moving: the reader scrolls on as they read. The answer is given at least the rest of the visible
-  // height, so the question can reach the top even when the log is short.
-  var lastAnswer = null;
+  // moving: the reader scrolls on as they read. An empty spacer after the answer (the log's ::after,
+  // --chat-tail) makes up the rest of the visible height, so the question can reach the top even when
+  // the log is short; the answer itself is only as tall as its text.
+  var lastAnswer = null, reserve = 0;
+  function fitTail() {
+    var tail = lastAnswer ? Math.max(0, reserve - lastAnswer.offsetHeight) : 0;  // the ::after cancels its own gap
+    log.style.setProperty('--chat-tail', tail + 'px');
+  }
   function showQuestion(question, answer) {
-    if (lastAnswer) lastAnswer.style.minHeight = '';
     var cs = getComputedStyle(log), pad = parseFloat(cs.paddingTop) || 0, gap = parseFloat(cs.rowGap) || 0;
-    answer.style.minHeight = Math.max(0, log.clientHeight - pad * 2 - question.offsetHeight - gap) + 'px';
+    reserve = Math.max(0, log.clientHeight - pad * 2 - question.offsetHeight - gap);
     lastAnswer = answer;
+    fitTail();
     var top = question.offsetTop - pad;
     if (log.scrollTo && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) log.scrollTo({ top: top, behavior: 'smooth' });
     else log.scrollTop = top;
@@ -180,6 +185,7 @@
       var html = (text ? markdown(text, sources) : '<span class="chat-typing" aria-label="Thinking"><i></i><i></i><i></i></span>') + (final ? sourcesHTML(text, sources) : '');
       if (html === shown) return;
       msg.innerHTML = shown = html;
+      fitTail();
     }
     function paint(final) {
       if (final) { if (frame) cancelAnimationFrame(frame); draw(true); return; }
@@ -188,6 +194,7 @@
     function fail(message) {
       msg.className = 'chat-msg chat-msg--error';
       msg.textContent = message;
+      fitTail();
       history.pop();
       status.textContent = message;
     }
