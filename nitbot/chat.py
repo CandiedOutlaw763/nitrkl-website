@@ -106,11 +106,11 @@ def _norm_value(v: str) -> str:
 
 
 class Chat:
-    def __init__(self):
+    def __init__(self, retriever: Retriever | None = None):
         if not config.GROQ_API_KEY:
             raise RuntimeError("GROQ_API_KEY is not set (put it in chatbot/.env)")
         self.client = Groq(api_key=config.GROQ_API_KEY)
-        self.retriever = Retriever()
+        self.retriever = retriever or Retriever()
         self.db = self.retriever.con
         table_years, report_years = _placement_years(self.db)
         self.tools = [

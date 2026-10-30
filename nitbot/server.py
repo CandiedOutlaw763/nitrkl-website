@@ -21,6 +21,7 @@ from pydantic import BaseModel, Field
 
 from . import config
 from .chat import Chat
+from .retrieve import Retriever
 
 RATE_LIMIT = 20       # chat requests per client IP ...
 RATE_WINDOW = 60.0    # ... per this many seconds
@@ -29,8 +30,9 @@ RATE_WINDOW = 60.0    # ... per this many seconds
 @asynccontextmanager
 async def lifespan(_app):
     try:
-        chat()  # load the models (and on a serverless host, fetch the pack) before the first question
-    except Exception as e:  # e.g. no GROQ_API_KEY yet: keep serving /api/health, which reports it
+        retriever()  # load the index and models (on a serverless host, fetch the pack) before the first request
+        chat()
+    except Exception as e:  # e.g. no GROQ_API_KEY yet: search and /api/health keep working
         print(f"chat not ready: {e!r}")
     yield
 
@@ -43,14 +45,23 @@ if (config.ROOT / "web").is_dir():  # the test page; not part of the deployed si
     if not config.SITE_DIR:  # with the site mounted, / is the homepage
         app.add_api_route("/", lambda: RedirectResponse("/demo/"), include_in_schema=False)
 
+_retriever: Retriever | None = None
 _chat: Chat | None = None
 _hits: dict[str, deque] = defaultdict(deque)
+
+
+def retriever() -> Retriever:
+    """The search index on its own: the site's search works without the language model's key."""
+    global _retriever
+    if _retriever is None:
+        _retriever = Retriever()
+    return _retriever
 
 
 def chat() -> Chat:
     global _chat
     if _chat is None:
-        _chat = Chat()
+        _chat = Chat(retriever())
     return _chat
 
 
@@ -85,12 +96,12 @@ def health():
     import sqlite3
     fts5 = "ENABLE_FTS5" in {r[0] for r in sqlite3.connect(":memory:").execute("PRAGMA compile_options")}
     return {"ok": bool(config.GROQ_API_KEY) and fts5, "model": config.GROQ_MODEL, "key": bool(config.GROQ_API_KEY),
-            "fts5": fts5, "pack": bool(config.PACK_DIR), "loaded": _chat is not None}
+            "fts5": fts5, "pack": bool(config.PACK_DIR), "index": _retriever is not None, "loaded": _chat is not None}
 
 
 @app.post("/api/search")
 def search(req: SearchRequest):
-    return chat().retriever.search(req.query, k=req.k)
+    return retriever().search(req.query, k=req.k)
 
 
 @app.post("/api/chat")
