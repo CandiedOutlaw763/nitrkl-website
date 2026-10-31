@@ -91,7 +91,7 @@ p { text-wrap: pretty; }
 .facts dd,
 .ff-tile dd,
 .fig, .figure-type,
-.folder-tab h3,
+.inc-text h3,
 .hero-count,
 .hero-title,
 .intro-name .intro-en,
@@ -873,7 +873,7 @@ p { text-wrap: pretty; }
 .ledger-fig--cite { font-size: var(--t-h1); color: var(--cin-2); }
 .ledger-lbl { font-size: var(--t-h3); font-weight: 700; margin-top: 12px; }
 .pubbar { display: flex; gap: 2px; height: 48px; margin: 36px 0 24px; }
-.pubbar button { position: relative; height: 100%; flex: 0 0 auto; width: var(--w); min-width: 24px; }  /* 24px: the smallest share stays a usable target */
+.pubbar button { position: relative; height: 100%; flex: 0 1 auto; width: var(--w); min-width: 24px; }  /* 24px: the smallest share stays a usable target */
 .pubbar-fill { position: absolute; inset: 0; background: var(--c); transform-origin: 0 50%; transition: filter .2s; }
 .pubbar button:hover .pubbar-fill, .pubbar button.is-hot .pubbar-fill { filter: brightness(.75); }
 .pub-legend { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
@@ -890,22 +890,74 @@ p { text-wrap: pretty; }
 .ledger-rows dd { order: 1; font-family: var(--display); font-size: var(--t-h1); font-weight: 700; line-height: 1.2; color: var(--cin); font-variant-numeric: tabular-nums; }
 
 /* =========================================================================
-   Incubations: folders that stack as the page scrolls
+   Incubations: a strip of startups, one open at a time. On laptops and desktops
+   it runs across one screen; on tablets and phones it is an accordion; without
+   script every startup is shown in full.
    ========================================================================= */
-.incubation.chapter { padding-bottom: 0; }
-.folders { position: relative; }
-.folder { position: sticky; top: calc(var(--nav-h) + var(--i, 0) * 72px); background: var(--f); color: var(--white); min-height: calc(100svh - var(--nav-h) - 4 * 72px); }
-.folder--light { color: var(--ink); --accent: var(--cin-2); --focus: var(--cin-2); }
-.folder:nth-child(1) { --i: 0; } .folder:nth-child(2) { --i: 1; } .folder:nth-child(3) { --i: 2; } .folder:nth-child(4) { --i: 3; } .folder:nth-child(5) { --i: 4; }
-.folder-tab { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 72px; padding: 0 var(--edge); }
-.folder-tab h3 { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: var(--t-h3); line-height: 1.2; }
-.folder-tab p { font-size: var(--t-p2); font-weight: 600; text-align: right; }
-.folder-body { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 32px clamp(24px, 3vw, 56px); align-items: center; padding-block: 24px clamp(48px, 6vw, 88px); }
-.folder-body img { grid-column: 1 / span 6; width: 100%; max-width: 600px; aspect-ratio: 4 / 3; object-fit: cover; background: var(--white); }
-.folder-text { grid-column: 7 / -1; }
-.folder-lead { font-size: var(--t-p1); line-height: 1.5; margin-bottom: 16px; max-width: 52ch; }
-.folder-text p:not(.folder-lead) { max-width: 52ch; }
-.folder-text .btn { margin-top: 28px; }
+.inc-strip { display: grid; gap: 4px; }
+.inc-bg, .inc-toggle { display: none; }
+.inc-body { display: grid; gap: 20px; padding: 20px; background: var(--white); color: var(--ink); --accent: var(--cin-2); --focus: var(--cin-2); }
+.inc-img { width: 100%; max-width: 600px; aspect-ratio: 4 / 3; object-fit: contain; background: var(--white); }
+.inc-text h3 { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: var(--t-h3); line-height: 1.2; }
+.inc-topic { margin: 4px 0 12px; font-size: var(--t-p2); font-weight: 600; color: var(--cin-2); }
+.inc-text p + p:not(.inc-topic) { margin-top: 10px; }
+.inc-text p { max-width: 60ch; }
+.inc-text .btn { margin-top: 20px; }
+
+/* With script: tablets and phones, an accordion */
+.js .inc-toggle {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 2px 12px; width: 100%; min-height: 56px; padding: 10px 16px;
+  background: var(--cin); color: var(--white); text-align: left; transition: background-color .2s;
+}
+.js .inc-toggle:hover { background: var(--ink); }
+.js .inc-toggle:focus-visible { outline-offset: -5px; }
+.inc-vname { flex: 1 1 100%; font-weight: 700; padding-right: 36px; }
+.inc-vtopic { flex: 1 1 auto; font-size: var(--t-p2); padding-right: 36px; }
+.inc-toggle { position: relative; }
+.inc-toggle .ic { position: absolute; right: 12px; top: 50%; margin-top: -12px; transition: transform .3s var(--ease); }
+.inc-toggle[aria-expanded="true"] .ic { transform: rotate(180deg); }
+.js .inc:not(.is-open) .inc-body { display: none; }
+.js .inc.is-open .inc-text h3 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } /* the button above already shows the name */
+.js .inc.is-open .inc-topic { display: none; }
+
+/* With script: laptops and desktops, the strip */
+@media (min-width: 1101px) {
+  .incubation.chapter { --fit-pad: clamp(24px, calc(24px + (100vh - 640px) * .25), var(--chapter-y)); padding-block: var(--fit-pad); }
+  .incubation .sec-head { margin-bottom: 20px; min-height: 44px; }
+  .js .inc-strip {
+    display: flex; gap: 6px; container-type: inline-size;
+    height: clamp(420px, calc(100vh - var(--nav-h) - 2 * var(--fit-pad) - 64px), 540px);
+  }
+  /* Opening is a wipe, not a fade: the white panel is always solid and fixed in width, and the widening
+     strip reveals it. The narrow face (picture, shade, name) keeps a fixed width too and fades away at
+     its left edge, so nothing rescales and nothing shows through anything else. */
+  .js .inc {
+    --inc-closed: calc((100cqw - 24px) / 13);
+    position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; background: var(--ink);
+    transition: flex-grow 1s cubic-bezier(.65, 0, .35, 1);  /* even in and out: the site's --ease does most of its travel at once */
+  }
+  .js .inc.is-open { flex-grow: 9; }
+  .js .inc-bg, .js .inc::after, .js .inc-toggle { transition: opacity .4s ease-in-out .6s, visibility 0s linear .6s; }  /* back once the panel has narrowed */
+  .js .inc-bg { display: block; position: absolute; inset: 0 auto 0 0; z-index: 2; width: var(--inc-closed); height: 100%; object-fit: cover; }
+  .js .inc::after { content: ""; position: absolute; inset: 0 auto 0 0; z-index: 3; width: var(--inc-closed); background: rgba(21, 2, 2, .76); pointer-events: none; }
+  .js .inc-toggle {
+    position: absolute; inset: 0 auto 0 0; z-index: 4; width: var(--inc-closed); flex-flow: row nowrap; align-items: flex-end; justify-content: center; gap: 4px;
+    min-height: 0; padding: 20px 0; background: none;
+  }
+  .js .inc-toggle:hover { background: none; }
+  .inc-vname, .inc-vtopic { flex: none; padding: 0; writing-mode: vertical-rl; transform: rotate(180deg); white-space: nowrap; }
+  .inc-toggle .ic { display: none; }
+  .js .inc.is-open .inc-bg, .js .inc.is-open::after, .js .inc.is-open .inc-toggle { visibility: hidden; opacity: 0; transition: opacity .4s ease-in-out, visibility 0s linear .4s; }
+  .js .inc:not(.is-open) .inc-body, .js .inc.is-open .inc-body {
+    display: grid; position: absolute; inset: 0 auto 0 0; z-index: 1; width: calc((100cqw - 24px) * 9 / 13);
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center; gap: clamp(20px, 2.4vw, 40px); padding: clamp(16px, 2.4vh, 28px) clamp(20px, 2.4vw, 36px);
+    overflow-y: auto;
+  }
+  .js .inc:not(.is-open) .inc-body { visibility: hidden; transition: visibility 0s linear 1s; }  /* out of the tab order once clipped away */
+  .js .inc.is-open .inc-body { visibility: visible; transition: visibility 0s; }
+  .js .inc.is-open .inc-text h3 { position: static; width: auto; height: auto; overflow: visible; clip: auto; white-space: normal; }
+  .js .inc.is-open .inc-topic { display: block; }
+}
 
 /* =========================================================================
    Achievements: one story at a time
@@ -1167,8 +1219,6 @@ p { text-wrap: pretty; }
   .ip-sheets { position: static; }
   .ledger-pubs, .ledger-side { grid-column: 1 / -1; }
   .ledger-rows { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .folder { position: relative; top: 0; min-height: 0; }
-  .folder-body img, .folder-text { grid-column: 1 / -1; }
   .ach-story, .ach-stage { grid-column: 1 / -1; }
   .ach-copy { min-height: 0; }
   .sem-list { grid-template-columns: 1fr; }
@@ -1226,8 +1276,6 @@ p { text-wrap: pretty; }
   .reel { grid-auto-columns: 82vw; }
   .reel-ctrls { display: none; }
   .pub-legend { grid-template-columns: 1fr 1fr; }
-  .folder-tab { flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px; padding-block: 14px; }
-  .folder-tab p { text-align: left; }
   .ach-track li { flex-basis: 86%; }
   .sem-list li { grid-template-columns: 56px minmax(0, 1fr); padding: 16px 12px; }
   .san-sublinks-grid { grid-template-columns: 1fr; }
@@ -1288,8 +1336,8 @@ p { text-wrap: pretty; }
    Reduced motion: the finished page, nothing travels
    ========================================================================= */
 @media (prefers-reduced-motion: reduce) {
+  .inc-bg, .inc::after, .inc-toggle, .inc-body { transition-delay: 0s !important; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
-  .folder { position: relative; top: 0; }
 }
 
 /* The site accessibility widget: keep its closed panel out of the page */
@@ -1476,6 +1524,13 @@ p { text-wrap: pretty; }
   [data-chapter], .site-footer, .glance > * { background: #fff !important; color: #000 !important; }
   .chapter { padding-block: 8mm !important; }
   section, .chapter { break-inside: avoid-page; }
+  .inc-strip { display: block !important; height: auto !important; }
+  .inc-toggle, .inc-bg, .inc::after { display: none !important; }
+  .inc { overflow: visible !important; break-inside: avoid; }
+  .inc .inc-body { display: block !important; position: static !important; width: auto !important; visibility: visible !important; opacity: 1 !important; }
+  .inc .inc-text h3 { position: static !important; width: auto !important; height: auto !important; clip: auto !important; }
+  .inc .inc-topic { display: block !important; }
+  .inc-img { max-width: 80mm; }
   h1, h2, h3 { break-after: avoid; color: #000 !important; }
   img { max-width: 100% !important; break-inside: avoid; }
   a { color: #000 !important; text-decoration: underline; }

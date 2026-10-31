@@ -918,71 +918,106 @@ document.documentElement.classList.add('js');
   </div>
 </section>
 
-<!-- Incubations@NITR: folders that stack as the page scrolls -->
+<!-- Incubations@NITR: a strip of startups, one open at a time (assets/site/site.js) -->
 <section class="incubation chapter" data-chapter="terra" aria-labelledby="incub-title">
   <div class="wrap">
     <div class="sec-head" data-reveal>
       <h2 id="incub-title" class="title">Incubations@NITR</h2>
       <a class="sec-link" href="/Resources/FTBI/">View All</a>
     </div>
-  </div>
-  <ol class="folders">
-    <li class="folder" style="--f:var(--cin)">
-      <div class="folder-tab"><h3>Stethaim</h3><p>HealthTech &bull; AI Diagnostics</p></div>
-      <div class="wrap folder-body">
-        <img src="docs/Entrepreneurship/images/Stethaim.webp" alt="Stethaim Auscultation Device" loading="lazy"/>
-        <div class="folder-text">
-          <p class="folder-lead">Respiratory diseases such as COPD, pneumonia, and asthma remain major health concerns. Stethaim is an AI-powered smart auscultation device that captures lung sounds, detects wheezes and crackles, measures respiratory rate, and provides structured clinical insights for early diagnosis.</p>
+    <ol class="inc-strip" id="incStrip" aria-label="Startups incubated at NIT Rourkela">
+    <li class="inc is-open">
+      <img class="inc-bg" src="docs/Entrepreneurship/images/Stethaim.webp" alt="" loading="lazy" width="600" height="450"/>
+      <button type="button" class="inc-toggle" aria-expanded="true" aria-controls="inc-0">
+        <span class="inc-vname">Stethaim</span>
+        <span class="inc-vtopic">HealthTech &bull; AI Diagnostics</span>
+        <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-expand-more"/></svg>
+      </button>
+      <div class="inc-body" id="inc-0">
+        <img class="inc-img" src="docs/Entrepreneurship/images/Stethaim.webp" alt="Stethaim Auscultation Device" loading="lazy" width="600" height="450"/>
+        <div class="inc-text">
+          <h3>Stethaim</h3>
+          <p class="inc-topic">HealthTech &bull; AI Diagnostics</p>
+          <p>Respiratory diseases such as COPD, pneumonia, and asthma remain major health concerns. Stethaim is an AI-powered smart auscultation device that captures lung sounds, detects wheezes and crackles, measures respiratory rate, and provides structured clinical insights for early diagnosis.</p>
           <p>Clinical-grade acoustics developed and incubated at FTBI &bull; TIIR NIT Rourkela.</p>
-          <a class="btn btn--light" href="https://www.stethaim.com" target="_blank" rel="noopener noreferrer">Explore Startup <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow-outward"/></svg></a>
+          <a class="btn btn--ink" href="https://www.stethaim.com" target="_blank" rel="noopener noreferrer">Explore Startup <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow-outward"/></svg></a>
         </div>
       </div>
     </li>
-    <li class="folder folder--light" style="--f:var(--cin-5)">
-      <div class="folder-tab"><h3>IVAPLUS Software</h3><p>Enterprise AI &bull; EdTech</p></div>
-      <div class="wrap folder-body">
-        <img src="docs/Entrepreneurship/images/Companypic.webp" alt="IVAPLUS Software" loading="lazy"/>
-        <div class="folder-text">
-          <p class="folder-lead">Specializing in building highly scalable, cloud-ready, comprehensive AI-driven solutions with primary focus on end-to-end automation of enterprise processes, examination administration, and automated learning evaluation suites.</p>
+    <li class="inc">
+      <img class="inc-bg" src="docs/Entrepreneurship/images/Companypic.webp" alt="" loading="lazy" width="600" height="450"/>
+      <button type="button" class="inc-toggle" aria-expanded="false" aria-controls="inc-1">
+        <span class="inc-vname">IVAPLUS Software</span>
+        <span class="inc-vtopic">Enterprise AI &bull; EdTech</span>
+        <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-expand-more"/></svg>
+      </button>
+      <div class="inc-body" id="inc-1">
+        <img class="inc-img" src="docs/Entrepreneurship/images/Companypic.webp" alt="IVAPLUS Software" loading="lazy" width="600" height="450"/>
+        <div class="inc-text">
+          <h3>IVAPLUS Software</h3>
+          <p class="inc-topic">Enterprise AI &bull; EdTech</p>
+          <p>Specializing in building highly scalable, cloud-ready, comprehensive AI-driven solutions with primary focus on end-to-end automation of enterprise processes, examination administration, and automated learning evaluation suites.</p>
           <p>Scale-ready cloud architecture powering large academic institutions and enterprise workflows.</p>
           <a class="btn btn--ink" href="https://www.ivaplus.co.in/" target="_blank" rel="noopener noreferrer">Explore Startup <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow-outward"/></svg></a>
         </div>
       </div>
     </li>
-    <li class="folder" style="--f:var(--ink)">
-      <div class="folder-tab"><h3>IOTA Design &amp; Innovations</h3><p>DeepTech &bull; Biomedical R&amp;D</p></div>
-      <div class="wrap folder-body">
-        <img src="docs/Entrepreneurship/images/IOTA.webp" alt="IOTA 3D Bioprinting" loading="lazy"/>
-        <div class="folder-text">
-          <p class="folder-lead">DeepTech R&amp;D company specializing in advanced medical devices and 3D printing technologies. Developed an indigenous 3D bioprinter for cell printing in biotech research, along with diagnostics for early detection of Dry Eye and Parkinson’s disease.</p>
+    <li class="inc">
+      <img class="inc-bg" src="docs/Entrepreneurship/images/IOTA.webp" alt="" loading="lazy" width="600" height="450"/>
+      <button type="button" class="inc-toggle" aria-expanded="false" aria-controls="inc-2">
+        <span class="inc-vname">IOTA Design &amp; Innovations</span>
+        <span class="inc-vtopic">DeepTech &bull; Biomedical R&amp;D</span>
+        <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-expand-more"/></svg>
+      </button>
+      <div class="inc-body" id="inc-2">
+        <img class="inc-img" src="docs/Entrepreneurship/images/IOTA.webp" alt="IOTA 3D Bioprinting" loading="lazy" width="600" height="450"/>
+        <div class="inc-text">
+          <h3>IOTA Design &amp; Innovations</h3>
+          <p class="inc-topic">DeepTech &bull; Biomedical R&amp;D</p>
+          <p>DeepTech R&amp;D company specializing in advanced medical devices and 3D printing technologies. Developed an indigenous 3D bioprinter for cell printing in biotech research, along with diagnostics for early detection of Dry Eye and Parkinson’s disease.</p>
           <p>Breakthrough biomedical instrumentation advancing cellular research across Indian laboratories.</p>
-          <a class="btn btn--light" href="https://iotadesign.in/" target="_blank" rel="noopener noreferrer">Explore Startup <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow-outward"/></svg></a>
+          <a class="btn btn--ink" href="https://iotadesign.in/" target="_blank" rel="noopener noreferrer">Explore Startup <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow-outward"/></svg></a>
         </div>
       </div>
     </li>
-    <li class="folder folder--light" style="--f:var(--cin-4)">
-      <div class="folder-tab"><h3>Quidle Enterprise</h3><p>CleanTech &bull; Sustainability</p></div>
-      <div class="wrap folder-body">
-        <img src="docs/Entrepreneurship/images/Quidle.webp" alt="Quidle Green Solutions" loading="lazy"/>
-        <div class="folder-text">
-          <p class="folder-lead">A DPIIT-recognized green venture focused on sustainable urban ecology solutions. Specializes in urban micro-gardening, architectural vertical green walls, and innovative smart planters for modern homes, universities, and commercial complexes.</p>
+    <li class="inc">
+      <img class="inc-bg" src="docs/Entrepreneurship/images/Quidle.webp" alt="" loading="lazy" width="600" height="450"/>
+      <button type="button" class="inc-toggle" aria-expanded="false" aria-controls="inc-3">
+        <span class="inc-vname">Quidle Enterprise</span>
+        <span class="inc-vtopic">CleanTech &bull; Sustainability</span>
+        <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-expand-more"/></svg>
+      </button>
+      <div class="inc-body" id="inc-3">
+        <img class="inc-img" src="docs/Entrepreneurship/images/Quidle.webp" alt="Quidle Green Solutions" loading="lazy" width="600" height="450"/>
+        <div class="inc-text">
+          <h3>Quidle Enterprise</h3>
+          <p class="inc-topic">CleanTech &bull; Sustainability</p>
+          <p>A DPIIT-recognized green venture focused on sustainable urban ecology solutions. Specializes in urban micro-gardening, architectural vertical green walls, and innovative smart planters for modern homes, universities, and commercial complexes.</p>
           <p>Government-recognized green innovation turning urban infrastructure into thriving ecosystems.</p>
           <a class="btn btn--ink" href="https://quidle.in/" target="_blank" rel="noopener noreferrer">Explore Startup <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow-outward"/></svg></a>
         </div>
       </div>
     </li>
-    <li class="folder folder--light" style="--f:var(--white)">
-      <div class="folder-tab"><h3>Hoardspace Media</h3><p>AdTech &bull; DOOH Marketplace</p></div>
-      <div class="wrap folder-body">
-        <img src="docs/Entrepreneurship/images/hoardspace.webp" alt="Hoardspace Advertising" loading="lazy"/>
-        <div class="folder-text">
-          <p class="folder-lead">Founded by student entrepreneurs from NIT Rourkela, Hoardspace provides an intelligent digital marketplace for Out-of-Home (OOH) and Digital Out-of-Home (DOOH) advertising, enabling brands to discover, compare, and book billboards and digital displays in real time.</p>
+    <li class="inc">
+      <img class="inc-bg" src="docs/Entrepreneurship/images/hoardspace.webp" alt="" loading="lazy" width="600" height="450"/>
+      <button type="button" class="inc-toggle" aria-expanded="false" aria-controls="inc-4">
+        <span class="inc-vname">Hoardspace Media</span>
+        <span class="inc-vtopic">AdTech &bull; DOOH Marketplace</span>
+        <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-expand-more"/></svg>
+      </button>
+      <div class="inc-body" id="inc-4">
+        <img class="inc-img" src="docs/Entrepreneurship/images/hoardspace.webp" alt="Hoardspace Advertising" loading="lazy" width="600" height="450"/>
+        <div class="inc-text">
+          <h3>Hoardspace Media</h3>
+          <p class="inc-topic">AdTech &bull; DOOH Marketplace</p>
+          <p>Founded by student entrepreneurs from NIT Rourkela, Hoardspace provides an intelligent digital marketplace for Out-of-Home (OOH) and Digital Out-of-Home (DOOH) advertising, enabling brands to discover, compare, and book billboards and digital displays in real time.</p>
           <p>Student-led innovation pioneering programmatic outdoor advertising across Indian tier-1 and tier-2 hubs.</p>
           <a class="btn btn--ink" href="https://www.hoardspace.in/" target="_blank" rel="noopener noreferrer">Explore Startup <svg class="ic" aria-hidden="true" focusable="false"><use href="#i-arrow-outward"/></svg></a>
         </div>
       </div>
     </li>
-  </ol>
+    </ol>
+  </div>
 </section>
 
 <!-- Achievements: faculty and student, one story at a time -->

@@ -346,13 +346,19 @@
         from.classList.remove('is-active'); to.classList.add('is-active'); setVideo(from, false);
       }
       current = next;
+      held = shouldHold();
       schedule();
     }
-    function hold(on) {
+    // The pointer holds a banner so it can be read; the film plays on regardless. Keyboard focus in the
+    // carousel holds the timer on any slide. Nothing here stops the film: only the pause button does.
+    var hovering = false, focused = false;
+    function shouldHold() { return focused || (hovering && !$('video', slides[current])); }
+    function hold() {
+      var on = shouldHold();
       if (held === on) return;
       held = on;
-      if (on) { clearTimeout(timer); if (progTween) progTween.pause(); var v = $('video', slides[current]); if (v) v.pause(); }
-      else if (!paused) { setVideo(slides[current], true); schedule(); }
+      if (on) { clearTimeout(timer); if (progTween) progTween.pause(); }
+      else if (!paused) schedule();
     }
 
     thumbs.forEach(function (t, i) { t.addEventListener('click', function () { go(i, i > current ? 1 : -1); }); });
@@ -364,10 +370,10 @@
       setVideo(slides[current], !paused);
       if (paused) { clearTimeout(timer); progress(current, 0); } else schedule();
     });
-    root.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') hold(true); });
-    root.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') hold(false); });
-    root.addEventListener('focusin', function () { hold(true); });
-    root.addEventListener('focusout', function (e) { if (!root.contains(e.relatedTarget)) hold(false); });
+    root.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') { hovering = true; hold(); } });
+    root.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') { hovering = false; hold(); } });
+    root.addEventListener('focusin', function () { focused = true; hold(); });
+    root.addEventListener('focusout', function (e) { if (!root.contains(e.relatedTarget)) { focused = false; hold(); } });
 
     var sx = null;
     stage.addEventListener('pointerdown', function (e) { if (e.pointerType !== 'mouse') sx = e.clientX; });
@@ -385,7 +391,8 @@
       new IntersectionObserver(function (en) {
         if (paused) return;
         if (!en[0].isIntersecting) { clearTimeout(timer); if (progTween) progTween.pause(); setVideo(slides[current], false); }
-        else if (!held) { if (!started) start(); else { setVideo(slides[current], true); schedule(); } }
+        else if (!started) start();
+        else { setVideo(slides[current], true); if (!held) schedule(); }
       }).observe(stage);
     }
     slides.forEach(function (s, k) { s.setAttribute('aria-hidden', String(k !== 0)); });
@@ -443,6 +450,41 @@
   $$('.bigtabs').forEach(function (l) { tablist(l); });
   tablist($('.agenda-tabs'));
   tablist($('.ip-index'), true);
+
+  /* ---------------------------------------------------------------
+     Incubations: one startup open at a time (pointer, click or keyboard)
+     --------------------------------------------------------------- */
+  (function incubations() {
+    var strip = $('#incStrip');
+    if (!strip) return;
+    var items = $$('.inc', strip), hoverTimer = null;
+    var wide = window.matchMedia('(min-width: 1101px)');
+    function open(item) {
+      items.forEach(function (it) {
+        var on = it === item;
+        it.classList.toggle('is-open', on);
+        $('.inc-toggle', it).setAttribute('aria-expanded', String(on));
+      });
+    }
+    items.forEach(function (it) {
+      var toggle = $('.inc-toggle', it);
+      toggle.addEventListener('click', function () {
+        clearTimeout(hoverTimer);
+        open(it);
+        // The strip hides the button of the open startup, so focus moves on to its link.
+        if (wide.matches) $('.btn', it).focus({ preventScroll: true });
+        else toggle.scrollIntoView({ block: 'nearest' });
+      });
+      it.addEventListener('mouseenter', function () {
+        if (!wide.matches || !window.matchMedia('(hover: hover)').matches) return;
+        var active = doc.activeElement;
+        if (active && strip.contains(active) && active.matches(':focus-visible')) return;  // never pull the panel from under keyboard focus
+        clearTimeout(hoverTimer);
+        hoverTimer = setTimeout(function () { open(it); }, 200);  // a pause, so sweeping across doesn't flicker
+      });
+      it.addEventListener('mouseleave', function () { clearTimeout(hoverTimer); });
+    });
+  })();
 
   /* ---------------------------------------------------------------
      Study @ NITR: the programme list drives the reading stage
