@@ -56,6 +56,25 @@ ABBREVIATIONS = {
 ABBREVIATION_RE = re.compile(r"\b(" + "|".join(ABBREVIATIONS) + r")\b", re.I)
 
 
+# Asked "what is the B.Tech fee?", search finds notices that mention fees, and can miss the notice that sets
+# them, whose title says "Fee Structure". So a question about fees always gets the newest such notice for its level.
+FEE_RE = re.compile(r"\b(fees?|tuition)\b", re.I)
+FEE_TITLE = "%fee structure%"
+UG_RE = re.compile(r"\b(b\.?\s?tech|btech|b\.?\s?arch|ug|under\s?graduate|dual degree|integrated)\b", re.I)
+PG_RE = re.compile(r"\b(m\.?\s?tech|mtech|mba|m\.?\s?sc|msc|m\.?\s?a|ph\.?\s?d|pg|post\s?graduate|murp)\b", re.I)
+FEE_UG_RE = re.compile(r"\b(ug|josaa|csab)\b", re.I)
+FEE_PG_RE = re.compile(r"\bpg\b", re.I)
+
+
+def published(url: str) -> str:
+    """The date an upload was published, from its file name: /docs/Announcement/10072026175422922.pdf = 10 Jul 2026."""
+    m = STAMP_RE.search(url)
+    if not m or not (1 <= int(m.group(1)) <= 31 and 1 <= int(m.group(2)) <= 12):
+        return ""
+    month = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()[int(m.group(2)) - 1]
+    return f"{int(m.group(1))} {month} {m.group(3)}"
+
+
 def expand_abbreviations(q: str) -> str:
     return ABBREVIATION_RE.sub(lambda m: f"{m.group(1)} {ABBREVIATIONS[m.group(1).lower()]}", q)
 
@@ -198,6 +217,27 @@ class Retriever:
             out[d["id"]] = d
         return out
 
+    def _fee_notices(self, query: str) -> list[int]:
+        """Chunks of the newest fee notice for the level asked about, or of the year named."""
+        if not FEE_RE.search(query):
+            return []
+        with self.lock:
+            docs = self.con.execute("SELECT id, key, title FROM docs WHERE lower(title) LIKE ?", (FEE_TITLE,)).fetchall()
+        named = YEAR_RE.search(query)
+        chosen = []
+        for wanted, test in ((UG_RE, FEE_UG_RE), (PG_RE, FEE_PG_RE)):
+            if PG_RE.search(query) or UG_RE.search(query):
+                if not wanted.search(query):
+                    continue
+            matches = [d for d in docs if test.search(d["title"] or "") and (not named or named.group(0) in (d["title"] or ""))]
+            if matches:
+                chosen.append(max(matches, key=lambda d: doc_year(d["key"], d["title"]))["id"])
+        ids = []
+        with self.lock:
+            for doc_id in chosen:
+                ids += [r[0] for r in self.con.execute("SELECT id FROM chunks WHERE doc_id = ? ORDER BY id LIMIT 2", (doc_id,))]
+        return ids
+
     def search(self, query: str, k: int = 6) -> list[dict]:
         query = expand_abbreviations(query)
         fused: dict[int, float] = {}
@@ -211,6 +251,7 @@ class Retriever:
         candidates = sorted(fused, key=fused.get, reverse=True)[:RERANK_CANDIDATES if self.reranker else CANDIDATES]
         rows = self._load(candidates)
         candidates = [c for c in candidates if c in rows]
+        pinned = self._fee_notices(query)
         if not candidates:
             return []
         if self.reranker:
@@ -228,6 +269,13 @@ class Retriever:
         ranked = sorted(((c, s * prior[c]) for c, s in zip(candidates, scores)), key=lambda x: x[1], reverse=True)
 
         results, per_doc, per_group = [], {}, {}
+        pinned_rows = self._load(pinned) if pinned else {}
+        for cid in pinned:
+            if cid in pinned_rows:
+                r = pinned_rows[cid]
+                results.append({"chunk_id": cid, "score": 1.0, "title": r["title"], "url": r["url"], "heading": r["heading"],
+                                "section": r["section"], "kind": r["kind"], "text": r["text"], "published": published(r["url"])})
+        ranked = [(c, s) for c, s in ranked if c not in pinned_rows]
         for cid, score in ranked:
             r = rows[cid]
             g = int(self.group[cid]) if cid < len(self.group) else 0
@@ -240,6 +288,7 @@ class Retriever:
             results.append({
                 "chunk_id": cid, "score": round(score, 4), "title": r["title"], "url": r["url"],
                 "heading": r["heading"], "section": r["section"], "kind": r["kind"], "text": r["text"],
+                "published": published(r["url"]),
             })
             if len(results) >= k:
                 break

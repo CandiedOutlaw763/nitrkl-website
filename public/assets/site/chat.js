@@ -133,7 +133,7 @@
   function restore() {
     history.forEach(function (m) {
       if (m.role === 'user') add('user', esc(m.content));
-      else add('bot', markdown(m.content, m.sources) + sourcesHTML(m.content, m.sources));
+      else addReadAloud(add('bot', markdown(m.content, m.sources) + sourcesHTML(m.content, m.sources)));
     });
     if (history.length && suggest) suggest.hidden = true;
     toBottom();
@@ -146,7 +146,7 @@
   function open(on) {
     panel.hidden = !on;
     fab.setAttribute('aria-expanded', String(on));
-    if (on) { input.focus(); log.scrollTop = log.scrollHeight; } else fab.focus();
+    if (on) { input.focus(); log.scrollTop = log.scrollHeight; } else { cancelListening(); stopReading(); fab.focus(); }
   }
   fab.addEventListener('click', function () { open(true); });
   closeBtn.addEventListener('click', function () { open(false); });
@@ -167,6 +167,7 @@
   function ask() {
     var q = input.value.trim();
     if (!q || busy) return;
+    cancelListening(); stopReading(); say('');
     busy = true; send.disabled = true;
     if (suggest) suggest.hidden = true;
     input.value = ''; autosize();
@@ -230,6 +231,8 @@
       .then(function () {
         if (!text.trim()) throw new Error('No answer came back. Please try again.');
         paint(true);
+        addReadAloud(msg);
+        fitTail();
         history.push({ role: 'assistant', content: text, sources: sources });
         save();
         status.textContent = 'Answer ready.';
@@ -240,6 +243,231 @@
         fail(err && !(err instanceof TypeError) && err.message && err.message.length < 200 ? err.message : OFFLINE);
         finish();
       });
+  }
+
+  // ---- voice ----------------------------------------------------------------------------------
+  // The browser's own speech features: no key, no server, and nothing starts by itself. Each is offered
+  // only where the browser has it. What is heard goes into the box for checking, not straight to the
+  // assistant, because names are the words speech recognition most often gets wrong.
+  var Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var synth = window.speechSynthesis;
+  var mic = document.getElementById('chatMic');
+  var voiceRow = document.getElementById('chatVoice');
+  var voiceLang = document.getElementById('chatVoiceLang');
+  var voiceStatus = document.getElementById('chatVoiceStatus');
+  var LANG_NAMES = { 'en-IN': 'English', 'hi-IN': 'Hindi', 'or-IN': 'Odia' };
+  var HEARD_ERRORS = {
+    'not-allowed': 'The microphone is blocked. Allow it for this site from the icon beside the address bar and press the mic again, or type your question.',
+    'service-not-allowed': 'This browser does not allow speech input here. Please type your question.',
+    'no-speech': 'Nothing was heard. Press the microphone and try again.',
+    'audio-capture': 'No microphone was found. Please type your question.',
+    'network': 'Speech input needs an internet connection. Please type your question.',
+    'language-not-supported': 'This browser cannot listen in that language. Choose another, or type your question.'
+  };
+  var MIC_WAIT = 6000, MIC_GIVE_UP = 15000, micTimers = [];
+  function clearMicTimers() { micTimers.forEach(clearTimeout); micTimers = []; }
+  function say(text, problem) {
+    if (!voiceStatus) return;
+    voiceStatus.textContent = text;
+    voiceStatus.classList.toggle('is-problem', !!problem);
+  }
+  function setIcon(el, name) { var use = el.querySelector('use'); if (use) use.setAttribute('href', '#i-' + name); }
+
+  // ---- speech to text
+  var listening = null;
+  function setMicUI(on) {
+    if (!mic) return;
+    mic.setAttribute('aria-pressed', String(on));
+    mic.setAttribute('aria-label', on ? 'Stop listening' : 'Speak your question');
+    mic.title = on ? 'Stop listening' : 'Speak your question';
+    setIcon(mic, on ? 'stop-circle' : 'mic');
+  }
+  function stopListening() {
+    if (!listening) return;
+    try { listening.stop(); } catch (e) { /* already stopped */ }
+  }
+  // For when the question has gone or the panel has closed: speech still on its way must not refill the box.
+  function cancelListening() {
+    if (!listening) return;
+    var rec = listening;
+    rec.onresult = rec.onerror = rec.onstart = rec.onend = null;
+    rec.done();
+    try { rec.abort(); } catch (e) { /* already stopped */ }
+  }
+  function listen() {
+    stopReading();
+    var rec, before = input.value.trim(), heard = '', failed = false, placeholder = input.placeholder;
+    try { rec = new Recognition(); } catch (e) { say('Speech input is not available in this browser. Please type your question.', true); return; }
+    function done() {
+      clearMicTimers();
+      input.placeholder = placeholder;
+      listening = null;
+      setMicUI(false);
+    }
+    rec.lang = voiceLang.value;
+    rec.interimResults = true;
+    rec.continuous = false;
+    // Listening starts only once the browser has the microphone, which can wait on a permission prompt.
+    rec.onstart = function () {
+      clearMicTimers();
+      input.placeholder = 'Listening. Speak now.';
+      say('Listening in ' + LANG_NAMES[voiceLang.value] + '. Speak now.');
+    };
+    rec.onresult = function (e) {
+      heard = '';
+      for (var i = 0; i < e.results.length; i++) heard += e.results[i][0].transcript;
+      input.value = (before ? before + ' ' : '') + heard;
+      autosize();
+    };
+    rec.onerror = function (e) {
+      if (e.error === 'aborted') return;
+      failed = true;
+      say(HEARD_ERRORS[e.error] || 'Speech input stopped. Please try again, or type your question.', true);
+    };
+    rec.onend = function () {
+      done();
+      if (failed) return;
+      if (heard.trim()) { say('Check your question, then press Send.'); input.focus(); }
+      else say(HEARD_ERRORS['no-speech'], true);
+    };
+    rec.done = done;
+    try { rec.start(); } catch (e) { say('Speech input is busy. Please try again in a moment.', true); return; }
+    listening = rec;
+    setMicUI(true);
+    say('Starting the microphone. If your browser asks, choose Allow.');
+    micTimers.push(setTimeout(function () { say('Still waiting for the microphone. Look for a permission prompt near the address bar.'); }, MIC_WAIT));
+    micTimers.push(setTimeout(function () {
+      failed = true;
+      say('The microphone did not start. Check that this site may use it in your browser settings, or type your question.', true);
+      try { rec.abort(); } catch (e) { /* already stopped */ }
+      if (listening === rec) done();
+    }, MIC_GIVE_UP));
+  }
+
+  // ---- text to speech
+  var reading = null;
+  function setReadUI(btn, on) {
+    btn.setAttribute('aria-pressed', String(on));
+    btn.querySelector('span').textContent = on ? 'Stop reading' : 'Read aloud';
+    setIcon(btn, on ? 'stop-circle' : 'volume-up');
+  }
+  function stopReading() {
+    if (!reading) return;
+    var r = reading;
+    reading = null;
+    if (synth) synth.cancel();
+    setReadUI(r.btn, false);
+  }
+  // What the answer says, as it should sound: no citation numbers or source list, tables read row by row,
+  // and no email columns, which take far longer to hear than to read.
+  function speakable(msg) {
+    var copy = msg.cloneNode(true), parts = [];
+    Array.prototype.forEach.call(copy.querySelectorAll('.cite, .chat-sources, .chat-read'), function (el) { el.remove(); });
+    function clean(el) { return el.textContent.replace(/\[\d+(?:\s*,\s*\d+)*\]/g, '').replace(/\s+/g, ' ').trim(); }
+    Array.prototype.forEach.call(copy.children, function (el) {
+      if (el.tagName === 'TABLE') {
+        var heads = Array.prototype.map.call(el.querySelectorAll('thead th'), clean);
+        Array.prototype.forEach.call(el.querySelectorAll('tbody tr'), function (tr) {
+          var bits = [];
+          Array.prototype.forEach.call(tr.children, function (td, i) {
+            var head = heads[i] || '', value = clean(td);
+            if (!value || /mail|^#$|^s\.?\s*no/i.test(head)) return;
+            bits.push(i === 0 || /^name$/i.test(head) ? value : head + ': ' + value);
+          });
+          if (bits.length) parts.push(bits.join(', '));
+        });
+      } else if (el.tagName === 'UL' || el.tagName === 'OL') {
+        Array.prototype.forEach.call(el.children, function (li) { parts.push(clean(li)); });
+      } else if (el.tagName !== 'HR') {
+        parts.push(clean(el));
+      }
+    });
+    return parts.filter(Boolean);
+  }
+  // Browsers can cut off one long utterance, so the text goes a short piece at a time.
+  function pieces(parts) {
+    var out = [];
+    parts.forEach(function (part) {
+      var now = '';
+      part.replace(/([.!?\u0964])\s+/g, '$1\u0001').split('\u0001').forEach(function (s) {
+        if (now && (now + ' ' + s).length > 200) { out.push(now); now = s; } else now = now ? now + ' ' + s : s;
+      });
+      if (now) out.push(now);
+    });
+    return out;
+  }
+  function languageOf(text) {
+    var hi = (text.match(/[\u0900-\u097F]/g) || []).length, or = (text.match(/[\u0B00-\u0B7F]/g) || []).length;
+    var en = (text.match(/[A-Za-z]/g) || []).length;
+    if (hi > en && hi >= or) return 'hi-IN';
+    if (or > en) return 'or-IN';
+    return 'en-IN';
+  }
+  function voiceFor(lang) {
+    var voices = synth.getVoices(), norm = function (v) { return (v.lang || '').replace('_', '-').toLowerCase(); };
+    var code = lang.toLowerCase(), base = code.split('-')[0];
+    return voices.filter(function (v) { return norm(v) === code; })[0] ||
+      voices.filter(function (v) { return norm(v).split('-')[0] === base; })[0] || null;
+  }
+  function readNext(r) {
+    if (reading !== r) return;
+    if (r.i >= r.list.length) { stopReading(); return; }
+    var text = r.list[r.i++], lang = languageOf(text), voice = voiceFor(lang);
+    // Some phones report no voices at all yet still speak. A list without this language means it would be misread.
+    if (!voice && synth.getVoices().length) {
+      say('This device has no ' + LANG_NAMES[lang] + ' voice, so this answer cannot be read aloud.', true);
+      stopReading();
+      return;
+    }
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = lang;
+    if (voice) u.voice = voice;
+    u.onend = function () { readNext(r); };
+    u.onerror = function (e) {
+      if (reading !== r || e.error === 'interrupted' || e.error === 'canceled') return;
+      say('The answer could not be read aloud on this device.', true);
+      stopReading();
+    };
+    r.current = u; // some browsers drop an utterance nothing refers to, and its end never comes
+    synth.speak(u);
+  }
+  function read(btn) {
+    var same = reading && reading.btn === btn;
+    stopReading();
+    stopListening();
+    say('');
+    if (same) return;
+    var list = pieces(speakable(btn.closest('.chat-msg')));
+    if (!list.length) return;
+    synth.cancel();
+    reading = { btn: btn, list: list, i: 0 };
+    setReadUI(btn, true);
+    readNext(reading);
+  }
+  function addReadAloud(msg) {
+    if (!synth || !window.SpeechSynthesisUtterance) return msg;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'chat-read';
+    btn.setAttribute('aria-pressed', 'false');
+    btn.innerHTML = '<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-volume-up"/></svg><span>Read aloud</span>';
+    msg.appendChild(btn);
+    return msg;
+  }
+  log.addEventListener('click', function (e) {
+    var btn = e.target.closest('.chat-read');
+    if (btn) read(btn);
+  });
+  if (synth) window.addEventListener('pagehide', function () { synth.cancel(); }); // it would otherwise carry on after leaving
+
+  if (Recognition && mic) {
+    mic.hidden = false;
+    voiceRow.hidden = false;
+    mic.parentNode.classList.add('has-mic');
+    // Start in the language the site is being read in
+    var site = (document.cookie.match(/googtrans=\/en\/(\w+)/) || [])[1];
+    if (site === 'hi') voiceLang.value = 'hi-IN';
+    mic.addEventListener('click', function () { if (listening) stopListening(); else listen(); });
   }
 
   restore();

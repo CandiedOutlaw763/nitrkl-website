@@ -64,6 +64,26 @@
 .chat-form button { width: 48px; height: 48px; display: grid; place-items: center; background: var(--cin, #771d1d); color: #fff; font-size: var(--t-h3); }
 .chat-form button:hover { background: var(--ink, #150202); }
 .chat-form button:disabled { opacity: .5; cursor: default; background: var(--cin, #771d1d); }
+.chat-input { position: relative; min-width: 0; }
+.chat-input textarea { display: block; width: 100%; }
+.chat-input.has-mic textarea { padding-right: 48px; }
+.chat-form .chat-mic { position: absolute; right: 4px; bottom: 4px; width: 40px; height: 40px; background: none; color: var(--cin, #771d1d); transition: background-color .2s, color .2s; }
+.chat-form .chat-mic[hidden] { display: none; }
+.chat-form .chat-mic:hover { background: var(--cin-5, #fcdada); }
+.chat-form .chat-mic[aria-pressed="true"], .chat-form .chat-mic[aria-pressed="true"]:hover { background: var(--cin-2, #a72626); color: #fff; }
+.chat-voice-status { padding: 8px 14px; background: var(--cin-5, #fcdada); color: var(--ink, #150202); font-size: var(--t-p2); font-weight: 600; }
+.chat-voice-status:empty { display: none; }
+.chat-voice-status.is-problem { background: var(--cin, #771d1d); color: #fff; }
+.chat-voice { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; padding: 0 14px 6px; background: #fff; font-size: var(--t-p2); }
+.chat-voice[hidden] { display: none; }
+.chat-voice select { min-height: 32px; padding: 2px 6px; border: 0; background: var(--linen, #ebeaea); color: var(--ink, #150202); font: inherit; }
+.chat-voice select:focus-visible { outline: 3px solid var(--cin-2, #a72626); outline-offset: 0; }
+.chat-voice a { margin-left: auto; color: var(--cin, #771d1d); text-decoration: underline; text-underline-offset: .2em; }
+.chat-voice a:hover { color: var(--ink, #150202); }
+.chat-read { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; margin-top: 8px; padding: 2px 10px 2px 6px; color: var(--cin, #771d1d); font-size: var(--t-p2); font-weight: 600; transition: background-color .2s, color .2s; }
+.chat-read .ic { flex: none; }
+.chat-read:hover { background: var(--cin-5, #fcdada); }
+.chat-read[aria-pressed="true"], .chat-read[aria-pressed="true"]:hover { background: var(--cin, #771d1d); color: #fff; }
 .chat-note { padding: 0 14px 12px; font-size: var(--t-p2); color: var(--grey-3, #606060); background: #fff; }
 
 @media (max-width: 720px) {

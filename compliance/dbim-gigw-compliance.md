@@ -124,7 +124,7 @@ Checklist F.2 is written for Ministry and Department websites. NIT Rourkela is a
 | # | Requirement | Status | Notes |
 |---|---|---|---|
 | 1 | Security audit by NIC, STQC or a CERT-In empanelled auditor before hosting | Institute | Required before launch. |
-| 2 | Secure hosting (confidentiality, integrity, availability) | Partial | The Vercel deployment in `deploy/` is served over HTTPS with `nosniff`, `Referrer-Policy` and `X-Frame-Options` headers. |
+| 2 | Secure hosting (confidentiality, integrity, availability) in a data centre in India | **Not met** | The Vercel deployment in `deploy/` is served over HTTPS with `nosniff`, `Referrer-Policy` and `X-Frame-Options` headers, but its function runs in the USA. GIGW 3.0's checklist (8.2.1) requires hosting in a data centre in India, with disaster recovery and 24x7 support. Before an official launch, host on NIC or another data centre in India. |
 | 3 | Security Policy, Privacy Policy, Contingency Management Plan | Institute | Drafts are in `gigw-policy-drafts.md`; the Privacy Policy already exists. |
 
 ### Lifecycle management
@@ -175,3 +175,4 @@ Checklist F.2 is written for Ministry and Department websites. NIT Rourkela is a
 7. A DBIM-style headshot of the Director (1:1, white background).
 8. An editorial review of existing content for spelling and British English, and an accessibility check of the PDFs.
 9. Confirm rights for all photographs.
+10. Host the official website in a data centre in India (the demonstration deployment on Vercel runs in the USA).

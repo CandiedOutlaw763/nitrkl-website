@@ -123,4 +123,11 @@ def chat_endpoint(req: ChatRequest, request: Request):
 # Local use: NITBOT_SITE_DIR serves the homepage from this server too, so the page and its chat
 # widget share one address (the "Start NIT Rourkela" launcher sets it). Mounted last, after /api.
 if config.SITE_DIR:
-    app.mount("/", StaticFiles(directory=config.SITE_DIR, html=True), name="site")
+    class FreshStaticFiles(StaticFiles):
+        """Browsers must check for a newer copy, or a new page runs with last week's stylesheet."""
+        async def get_response(self, path, scope):
+            response = await super().get_response(path, scope)
+            response.headers["Cache-Control"] = "no-cache"
+            return response
+
+    app.mount("/", FreshStaticFiles(directory=config.SITE_DIR, html=True), name="site")
