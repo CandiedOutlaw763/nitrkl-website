@@ -47,6 +47,19 @@ FOLDER_YEAR_RE = re.compile(r"(?<!\d)((?:19|20)\d{2})(?:-(\d{2}))?(?!\d)")  # /2
 YEAR_RE = re.compile(r"\b((?:19|20)\d{2})(?:\s*[-–]\s*(\d{2})\b)?")
 
 
+# The site writes departments and posts out in full; people ask with abbreviations, which neither search sees through.
+ABBREVIATIONS = {
+    "cse": "Computer Science and Engineering", "ece": "Electronics and Communication Engineering",
+    "eee": "Electrical Engineering", "mech": "Mechanical Engineering", "hod": "Head of the Department",
+    "hods": "Heads of Department",
+}
+ABBREVIATION_RE = re.compile(r"\b(" + "|".join(ABBREVIATIONS) + r")\b", re.I)
+
+
+def expand_abbreviations(q: str) -> str:
+    return ABBREVIATION_RE.sub(lambda m: f"{m.group(1)} {ABBREVIATIONS[m.group(1).lower()]}", q)
+
+
 def doc_year(key: str, title: str) -> float:
     """When a document dates from, as a fractional year; 0 if unknown (HTML pages: always 0)."""
     if not key.startswith(("/docs/", "data:")):
@@ -186,6 +199,7 @@ class Retriever:
         return out
 
     def search(self, query: str, k: int = 6) -> list[dict]:
+        query = expand_abbreviations(query)
         fused: dict[int, float] = {}
         for ranking in (self._keyword(query, POOL), self._dense(query, POOL)):
             ranking = self._diverse(ranking, CANDIDATES)

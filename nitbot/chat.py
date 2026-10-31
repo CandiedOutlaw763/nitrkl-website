@@ -15,6 +15,7 @@ from datetime import date
 from groq import Groq, RateLimitError, APIError
 
 from . import config
+from .people import Directory
 from .retrieve import Retriever
 
 log = logging.getLogger("uvicorn.error")
@@ -23,6 +24,7 @@ MAX_HISTORY = 10          # messages kept from the conversation
 MAX_USER_CHARS = 2000
 MAX_TOOL_ROUNDS = 3
 SEARCH_K = 6
+DIRECTORY_SEARCH_K = 2  # search results to add when the directory already holds the answer
 MAX_ANSWER_TOKENS = 2048
 CHARS_PER_TOKEN = 3  # a cautious estimate: tables, numbers and URLs tokenise poorly
 # gpt-oss models sometimes cite as 【1】 or [1†L1-L4]; the frontend expects [1].
@@ -62,6 +64,11 @@ could not find it on nitrkl.ac.in and point to the most relevant page or office 
 - Never invent numbers. For placement figures (offers, students placed, CTC / salary packages, sectors, recruiters) \
 always call the placement_stats tool before answering, even when the sources show numbers (annual reports and \
 brochures count differently), and quote its numbers exactly, with the year.
+- A source titled "Directory" is the institute's own current listing of its people. For who holds a post, who belongs to a \
+department and how to reach them, it overrides every other source. When it gives a list, give every entry in it, in a table, \
+without shortening it or stopping early. For a list of people, one short line of introduction is enough.
+- For any question about NIT Rourkela's people that the sources do not settle (a person, a department's faculty, who works on \
+a topic, a Head of Department), call the people_directory tool.
 - Check that a source applies to what was asked: the programme, the kind of student, the year. Many notices cover \
 only one group (e.g. foreign nationals under SII or DASA, a single department). If the question is general and the \
 sources only cover a special group, call search_nitrkl again (e.g. "B.Tech fee structure JoSAA") before answering, \
@@ -112,6 +119,7 @@ class Chat:
         self.client = Groq(api_key=config.GROQ_API_KEY)
         self.retriever = retriever or Retriever()
         self.db = self.retriever.con
+        self.directory = Directory(self.db)
         table_years, report_years = _placement_years(self.db)
         self.tools = [
             {
@@ -124,6 +132,24 @@ class Chat:
                         "type": "object",
                         "properties": {"query": {"type": "string", "description": "search query"}},
                         "required": ["query"],
+                    },
+                },
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "people_directory",
+                    "description": "The institute's current directory of faculty and staff. Finds a person even if the name is "
+                                   "misspelt; lists all the faculty of a department; lists faculty by research topic; gives "
+                                   "Heads of Department. Give only the arguments you need.",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "name": {"type": "string", "description": "a person's name, as spelt in the question"},
+                            "department": {"type": "string", "description": "department name or abbreviation, e.g. CSE"},
+                            "expertise": {"type": "string", "description": "research topic, e.g. image processing"},
+                            "role": {"type": "string", "enum": ["head"], "description": "head = Head of Department"},
+                        },
                     },
                 },
             },
@@ -227,7 +253,14 @@ class Chat:
                 blocks.append(f"{head}\n{r['text']}")
             return "\n\n---\n\n".join(blocks) or "(no results)"
 
-        context = add_sources(self.retriever.search(query, k=SEARCH_K))
+        # Questions about people start from the directory. A list needs little else, and older pages about
+        # the same people only get in the way; a person's name, once its spelling is settled, is searched for.
+        found = self.directory.lookup(question, prev_user[-1] if prev_user else "")
+        k = SEARCH_K
+        if found:
+            query = question if found["focused"] else " ".join(found["names"] + [query])  # a follow-up's earlier subject is settled
+            k = DIRECTORY_SEARCH_K if found["focused"] else SEARCH_K
+        context = add_sources(([found] if found else []) + self.retriever.search(query, k=k))
         yield {"type": "sources", "sources": list(sources)}
 
         convo = [{"role": "system", "content": SYSTEM_PROMPT.format(today=date.today().isoformat())}]
@@ -309,6 +342,10 @@ class Chat:
                     result = "Error: arguments were not valid JSON."
                 elif c["name"] == "search_nitrkl" and args.get("query"):
                     result = add_sources(self.retriever.search(str(args["query"]), k=SEARCH_K))
+                elif c["name"] == "people_directory":
+                    known = {k: str(args[k]) for k in ("name", "department", "expertise", "role") if args.get(k)}
+                    block = self.directory.answer_for(**known)
+                    result = add_sources([block]) if block else "Not in the directory. Try search_nitrkl."
                 elif c["name"] == "placement_stats":
                     known = {k: args.get(k) for k in ("year", "programme", "department")}
                     rows, urls = self.placement_stats(str(args.get("report", "offers")), **known)
